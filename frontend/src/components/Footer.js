@@ -15,7 +15,6 @@ const AppFooter = () => {
                     <Grid container sx={{fontWeight:"600"}}>
                         <Grid item mr={3}>Trang chủ</Grid>
                         <Grid item mr={3}>Sản phẩm</Grid>
-                        <Grid item>Giới thiệu</Grid>
                     </Grid>
                 </Grid>
             </Grid>

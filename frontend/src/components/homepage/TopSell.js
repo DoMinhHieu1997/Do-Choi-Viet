@@ -13,7 +13,7 @@ const TopSell = () => {
     <Grid container spacing={3}>
       {
         Array(8).fill(0).map((item,index) => {
-          return <TopSellItem/>
+          return <TopSellItem key={index}/>
         })
       }
     </Grid>

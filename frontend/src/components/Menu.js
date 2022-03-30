@@ -37,7 +37,7 @@ ElevationScroll.propTypes = {
 };
 
 const AppMenu = (props) => {
-  const pages = [{text:'Trang chủ',link:'/'}, {text:'Sản phẩm',link:'/san-pham'}, {text:'Giới thiệu',link:'gioi-thieu'}];
+  const pages = [{text:'Trang chủ',link:'/'}, {text:'Sản phẩm',link:'/san-pham'}];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -101,7 +101,7 @@ const AppMenu = (props) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.text} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.link} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
@@ -132,14 +132,13 @@ const AppMenu = (props) => {
             {pages.map((page) => (
               <NavLink to={page.link}>
                 <Button
-                  key={page.text}
+                  key={page.link}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'black', display: 'block', textTransform: 'unset', fontWeight:"600" }}
                 >
                   {page.text}
                 </Button>
               </NavLink>
-              
             ))}
           </Box>
 
@@ -165,7 +164,7 @@ const AppMenu = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings.map((setting,index) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

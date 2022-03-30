@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/san-pham" element={<ProductPage />} />
+        <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
         {/* <Route path="/dang-nhap" element={<Login />} />
         <Route path="/dang-ky" element={<Register />} />
