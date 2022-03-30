@@ -2,15 +2,13 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActions,
   Typography,
-  Button,
   Grid
 } from '@mui/material';
 
 const TopSell = () => {
   return <>
-    <Typography variant="h5" textAlign="center" mb={2} fontWeight="bold">Sản phẩm bán chạy</Typography>
+    <Typography variant="h5" textAlign="center" mb={2} mt={5} fontWeight="bold">Sản phẩm bán chạy</Typography>
     <div className='mx-auto mb-5' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
     <Grid container spacing={3}>
       {
@@ -41,10 +39,6 @@ const TopSellItem = () => {
           species, ranging across all continents except Antarctica
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
     </Card>
   </Grid>
   

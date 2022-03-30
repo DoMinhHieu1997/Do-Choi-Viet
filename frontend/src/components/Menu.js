@@ -13,6 +13,7 @@ import {
   Tooltip,
   MenuItem
 } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -36,7 +37,7 @@ ElevationScroll.propTypes = {
 };
 
 const AppMenu = (props) => {
-  const pages = ['Trang chủ', 'Sản phẩm', 'Giới thiệu'];
+  const pages = [{text:'Trang chủ',link:'/'}, {text:'Sản phẩm',link:'/san-pham'}, {text:'Giới thiệu',link:'gioi-thieu'}];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -65,7 +66,7 @@ const AppMenu = (props) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, mr:3, fontWeight:'600' }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, mr:4, fontWeight:'600' }}
           >
             DOCHOIVIET
           </Typography>
@@ -100,8 +101,8 @@ const AppMenu = (props) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.text} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -119,7 +120,7 @@ const AppMenu = (props) => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <input 
               placeholder="Tìm sản phẩm..." 
-              className="rounded p-1" 
+              className="rounded py-1 px-3" 
               style={{
                 backgroundColor:"#f1effc",
                 border:"none"
@@ -129,13 +130,16 @@ const AppMenu = (props) => {
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr:2 }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block', textTransform: 'unset', fontWeight:"600" }}
-              >
-                {page}
-              </Button>
+              <NavLink to={page.link}>
+                <Button
+                  key={page.text}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'black', display: 'block', textTransform: 'unset', fontWeight:"600" }}
+                >
+                  {page.text}
+                </Button>
+              </NavLink>
+              
             ))}
           </Box>
 
