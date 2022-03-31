@@ -17,6 +17,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from '../images/logo.png';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -37,7 +38,15 @@ ElevationScroll.propTypes = {
 };
 
 const AppMenu = (props) => {
-  const pages = [{text:'Trang chủ',link:'/'}, {text:'Sản phẩm',link:'/san-pham'}];
+  const pages = [
+    {text:'Trang chủ',link:'/'}, 
+    {text:'Cờ vua',link:'/san-pham/co-vua'},
+    {text:'Cá ngựa',link:'/san-pham/ca-ngua'},
+    {text:'Cờ tướng',link:'/san-pham/co-tuong'},
+    {text:'Xếp hình',link:'/san-pham/xep-hinh'},
+    {text:'Ngoài trời',link:'/san-pham/ngoai-troi'},
+    {text:'Khác',link:'/san-pham/khac'}
+  ];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -59,17 +68,21 @@ const AppMenu = (props) => {
   };
 
   return <ElevationScroll {...props}>
-    <AppBar sx={{ color:"black", backgroundColor:"white", borderBottom:"1px solid #ddd" }}>
+    <AppBar sx={{ color:'black', backgroundColor:'white', borderBottom:'1px solid #ddd' }}>
       <Container>
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, mr:4, fontWeight:'600' }}
-          >
-            DOCHOIVIET
-          </Typography>
+          
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr:5, alignItems:'center' }}>
+            <img width='40rem' src={Logo}/>
+            <Typography
+              variant='h4'
+              noWrap
+              component='div'
+              sx={{ fontWeight:'600', ml:1, lineHeight:.8, color:'#606060' }}
+            >
+              dochoiviet
+            </Typography>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -108,14 +121,17 @@ const AppMenu = (props) => {
             </Menu>
           </Box>
 
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, fontWeight:'600' }}
-          >
-            DOCHOIVIET
-          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems:'end', fontWeight:'600' }}>
+            <img width="30rem" src="../assets/logo.png"/>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+            >
+              DOCHOIVIET
+            </Typography>
+          </Box>
+          
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <input 
