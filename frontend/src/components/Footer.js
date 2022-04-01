@@ -28,8 +28,8 @@ const AppFooter = () => {
                     <Grid container sx={{fontWeight:"600"}}>
                         {
                             pages.map((item,index) => {
-                                return <Grid item mr={3}>
-                                    <NavLink to={item.link} className="text-dark">{item.text}</NavLink>
+                                return <Grid item mr={3} key={index}>
+                                    <NavLink to={item.link} className="c-606060">{item.text}</NavLink>
                                 </Grid>
                             })
                         }

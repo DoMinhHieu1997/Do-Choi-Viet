@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const ProductCard = () => {
     return <Grid item xs={6} md={3}>
-        <Card sx={{ p:2 }}>
+        <Card className="shadow-hover" sx={{ p:2 }}>
             <div className="ratio ratio-1x1 rounded border">
                 <div className="top-0 end-0 mt-2 text-end d-inline-block">
                     <Tooltip title="Có nam châm">

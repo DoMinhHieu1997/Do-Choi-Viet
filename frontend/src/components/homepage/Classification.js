@@ -1,4 +1,5 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, SvgIcon } from "@mui/material";
+import { NavLink } from 'react-router-dom';
 
 const Classification = () => {
     return <>
@@ -6,26 +7,49 @@ const Classification = () => {
         <div className='mx-auto mb-5' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
         <Grid container spacing={3}>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/co-vua">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-chess-active"></div>
+                    </div>
+                </NavLink>
             </Grid>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/ca-ngua">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-horse-chess-active"></div>
+                    </div>
+                </NavLink>
             </Grid>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/co-tuong">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-chinese-chess-active"></div>    
+                    </div>
+                </NavLink>
             </Grid>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/xep-hinh">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-block-active"></div>
+                    </div>
+                </NavLink>
             </Grid>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/ngoai-troi">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-outside-active"></div>
+                    </div>
+                </NavLink>
             </Grid>
             <Grid item xs={6} md={4}>
-                <div className="ratio ratio-16x9 rounded border"></div>
+                <NavLink to="/san-pham/khac">
+                    <div className="ratio ratio-16x9 rounded shadow-hover cursor-pointer bg-antiquewhite transition-d5">
+                        <div className="top-50 start-50 classify-icon translate-middle icon-dif-active"></div>
+                    </div>
+                </NavLink>
             </Grid>
         </Grid>
     </>
-    
 }
 
 export default Classification;

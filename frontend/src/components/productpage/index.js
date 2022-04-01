@@ -6,16 +6,11 @@ import ProductCard from "./ProductItem";
 
 const ProductPage = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
     const [listProduct, setListProduct] = useState();
-    const [page, setPage] = useState();
+    const [page, setPage] = useState(1);
     const [title, setTitle] = useState('');
     const param =  useParams();
-
-    if (param.type) {
-        console.log(1);
-    } else {
-        console.log(2);
-    }
 
     const getProductTitle = (str) => {
         let checktitle = '';
@@ -41,30 +36,32 @@ const ProductPage = () => {
                 title:"ngoài trời"
             },
             {
-                alias:"mo-rong",
+                alias:"khac",
                 title:"khác"
             },
         ];
 
         for (let i = 0; i < titleInfo.length; i++) {
-            if (str == i.alias) {
-                checktitle = i.title;
+            if (str === titleInfo[i].alias) {
+                checktitle = titleInfo[i].title;
             }
         }
 
         if (checktitle !== '') {
-            navigate('/');
-        } else {
             setTitle(checktitle);
+        } else {
+            navigate('/');
         }
     }
 
     useEffect(() => {
+        setIsLoading(true)
         getProductTitle(param.type);
-    }, [])
+        setIsLoading(false);
+    }, [param.type])
 
     return <Container sx={{mt:15, mb:10}}>
-        <Typography mb={1} variant="h4" className="text-center">Danh sách sản phẩm {title}</Typography>
+        <Typography mb={1} variant="h4" className="text-center" sx={{ fontWeight:"700" }}>Danh sách sản phẩm {title}</Typography>
         <div className='mx-auto mb-4' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
         <Grid container spacing={2}>
             {
@@ -73,12 +70,12 @@ const ProductPage = () => {
                 })
             }
             {
-                Array(8).fill(0).map((item, index) => {
+                isLoading && Array(8).fill(0).map((item, index) => {
                     return <ProductItemSkeleton key={index}/>
                 })
             }
         </Grid>
-        <div className="text-center mt-4">
+        <div className="text-center mt-5">
             <Button variant="outlined" sx={{ fontWeight:"600" }}>Xem thêm sản phẩm</Button>
         </div>
     </Container>

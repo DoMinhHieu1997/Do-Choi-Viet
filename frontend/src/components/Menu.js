@@ -68,7 +68,7 @@ const AppMenu = (props) => {
   };
 
   return <ElevationScroll {...props}>
-    <AppBar sx={{ color:'black', backgroundColor:'white', borderBottom:'1px solid #ddd' }}>
+    <AppBar sx={{ backgroundColor:'white', borderBottom:'1px solid #ddd' }}>
       <Container>
         <Toolbar disableGutters>
           
@@ -115,7 +115,7 @@ const AppMenu = (props) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.link} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.text}</Typography>
+                  <Typography textAlign="center" className='className="c-606060"'>{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -150,7 +150,8 @@ const AppMenu = (props) => {
                 <Button
                   key={page.link}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'black', display: 'block', textTransform: 'unset', fontWeight:"600" }}
+                  className="c-606060"
+                  sx={{ my: 2, display: 'block', textTransform: 'unset', fontWeight:"600" }}
                 >
                   {page.text}
                 </Button>

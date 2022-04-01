@@ -22,7 +22,6 @@ function App() {
             <Route path="/ho-so/bai-viet-cua-toi" element={<MyProfile />} />
             <Route path="/ho-so/bai-viet-da-luu" element={<SavedPost />} />
         </Route>
-        <Route path="/chi-tiet/:id" element={<Detail />} />
         <Route path="/tim-kiem" element={<Search />} />
         <Route path="*" element={<NotFound />} /> */}
       </Routes>
