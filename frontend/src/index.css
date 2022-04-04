@@ -20,6 +20,9 @@ input:focus-visible {
 a {
   text-decoration: none !important;
 }
+textarea {
+  border-color: rgba(0, 0, 0, 0.23) !important;
+}
 .c-606060 {
   color: #606060 !important;
 }
@@ -71,3 +74,4 @@ a {
   width: 6rem !important;
   height: 6.2rem !important;
 }
+

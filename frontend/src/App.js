@@ -5,14 +5,18 @@ import HomePage from "./components/homepage";
 import AppFooter from "./components/Footer";
 import ProductPage from "./components/productpage";
 import Detail from "./components/detailpage";
+import ActionModal from "./components/actionModal";
+import CreateButton from "./components/actionModal/CreateButton";
+import { useState } from "react";
 
 function App() {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className="App">
       <AppMenu/>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/san-pham" element={<ProductPage />} />
         <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
         {/* <Route path="/dang-nhap" element={<Login />} />
@@ -25,6 +29,8 @@ function App() {
         <Route path="/tim-kiem" element={<Search />} />
         <Route path="*" element={<NotFound />} /> */}
       </Routes>
+      <CreateButton setOpenModal={setOpenModal}/>
+      <ActionModal openModal={openModal} setOpenModal={setOpenModal}/>
       <AppFooter/>
     </div>
   );
