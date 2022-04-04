@@ -74,4 +74,7 @@ textarea {
   width: 6rem !important;
   height: 6.2rem !important;
 }
+.MuiBox-root:focus-visible {
+  outline: none !important;
+}
 
