@@ -1,3 +1,14 @@
+import { styled } from '@mui/material/styles';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import { useState } from "react";
+import { storage } from "../../firebase";
+import PropTypes from 'prop-types';
+import {
+    getDownloadURL,
+    ref,
+    uploadBytesResumable,
+} from "firebase/storage";
 import { 
     Modal, 
     Box, 
@@ -14,24 +25,56 @@ import {
     Alert,
     LinearProgress
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import { useState } from "react";
-import { storage } from "../../firebase";
-import {
-    getDownloadURL,
-    ref,
-    uploadBytesResumable,
-} from "firebase/storage";
-import PropTypes from 'prop-types';
-
-const Input = styled('input') ({
-    display: 'none',
-});
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ActionModal = (props) => {
+    const defaultConfig = {
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'uploadImage',
+                'blockQuote',
+                'insertTable',
+                'mediaEmbed',
+                'undo',
+                'redo',
+            ]
+        },
+        image: {
+            toolbar: [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageTextAlternative',
+            ]
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+        language: 'vi',
+        cloudServices: {
+            tokenUrl:
+              "https://87781.cke-cs.com/token/dev/5ae153e2ce55fe155b8ae35065d4cbe4f822c813f61cc3abd228aaf764e8?limit=10",
+            uploadUrl: "https://87781.cke-cs.com/easyimage/upload/",
+        },
+    };
 
+    const Input = styled('input') ({
+        display: 'none',
+    });
     function LinearProgressWithLabel(props) {
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -54,6 +97,7 @@ const ActionModal = (props) => {
     const [imageListPrev, setImageListPrev] = useState([]);
     const [progress, setProgress] = useState(0);
     const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [displayProgessBar, setDisplayProgressBar] = useState(false);
     let imageUploadArray = [];
 
     const handleOpen = () => props.setOpenModal(true);
@@ -74,10 +118,8 @@ const ActionModal = (props) => {
         for (let i = 0; i < file.length; i++) {
             console.log(file[i].type);
             if (file[i].type === "image/png" || file[i].type ==="image/gif" || file[i].type ==="image/jpeg") {
-                console.log(1);
                 setImageListPrev(prev => [...prev,file[i]]);
             } else {
-                console.log(2);
                 setOpenSnackBar(true);
             }
         }
@@ -90,6 +132,7 @@ const ActionModal = (props) => {
 
         await uploadTask.on("state_changed", 
             (snapshot) => {
+                setDisplayProgressBar(true);
                 const prog = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
@@ -99,6 +142,7 @@ const ActionModal = (props) => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref)
                 .then(url => {
+                    setDisplayProgressBar(false);
                     imageUploadArray.push(url);
                     console.log(imageUploadArray);
                 });
@@ -136,6 +180,7 @@ const ActionModal = (props) => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            sx={{ overflow: "scroll" }}
         >
             <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute">
                 <Typography id="modal-modal-title" variant="h5" className="fw-bold">
@@ -158,7 +203,6 @@ const ActionModal = (props) => {
                         <MenuItem>Khác</MenuItem>
                     </Select>
                 </FormControl>
-                <h4>{progress}</h4>
                 <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
                     Tải ảnh sản phẩm lên
                 </Typography>
@@ -169,9 +213,12 @@ const ActionModal = (props) => {
                         <AddAPhotoIcon fontSize="small" sx={{ml:1, mb:1}}/>
                     </Button>
                 </label>
-                <Box sx={{ width: '100%' }}>
-                    <LinearProgressWithLabel value={progress} />
-                </Box>
+                {
+                    displayProgessBar 
+                        && <Box sx={{ width: '100%' }}>
+                            <LinearProgressWithLabel value={progress} />
+                        </Box>
+                }
                 <Grid container sx={{ mt:3 }}>
                     {
                         imageListPrev.length > 0 && imageListPrev.map((item,index) => {
@@ -194,6 +241,20 @@ const ActionModal = (props) => {
                     minRows={3}
                     style={{ width: '100%' }}
                 />
+                <div className='mt-3'>
+                    <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
+                        Nội dung bài viết
+                    </Typography>
+                    <CKEditor
+                        config={defaultConfig}
+                        editor={ ClassicEditor }
+                        data="<p>Hello from CKEditor 5!</p>"
+                        onReady={ editor => {} }
+                        onChange={ ( event, editor ) => {} }
+                        onBlur={ ( event, editor ) => {} }
+                        onFocus={ ( event, editor ) => {} }
+                    />
+                </div>
                 <div className="mt-3 text-end">
                     <Button variant="contained" sx={{ mr:3 }} onClick={handleModalAction}>Tạo bài viết</Button>
                     <Button variant="contained" onClick={handleClose}>Hủy tạo</Button>
