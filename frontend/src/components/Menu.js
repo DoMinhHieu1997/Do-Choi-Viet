@@ -114,7 +114,7 @@ const AppMenu = (props) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.link} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.text + '-specified-1'} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center" className='className="c-606060"'>{page.text}</Typography>
                 </MenuItem>
               ))}
@@ -146,9 +146,8 @@ const AppMenu = (props) => {
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr:2 }}>
             {pages.map((page) => (
-              <NavLink to={page.link}>
+              <NavLink key={page.text + '-specified-2'} to={page.link}>
                 <Button
-                  key={page.link}
                   onClick={handleCloseNavMenu}
                   className="c-606060"
                   sx={{ my: 2, display: 'block', textTransform: 'unset', fontWeight:"600" }}
@@ -182,7 +181,7 @@ const AppMenu = (props) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting,index) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={index} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
