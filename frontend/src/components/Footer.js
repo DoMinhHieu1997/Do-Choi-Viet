@@ -24,7 +24,7 @@ const AppFooter = () => {
                     <img width='60rem' src={Logo}/>
                     <Typography variant='h3' ml={1} sx={{ fontWeight:'600', lineHeight:.8, color:'#606060' }}>dochoiviet</Typography>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Grid container sx={{fontWeight:"600"}}>
                         {
                             pages.map((item,index) => {

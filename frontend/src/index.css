@@ -77,4 +77,7 @@ textarea {
 .MuiBox-root:focus-visible {
   outline: none !important;
 }
+.ck-content {
+  min-height: 10rem;
+}
 

@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.2.1",
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "firebase": "^9.6.10",
     "owl.carousel": "^2.3.4",
     "react": "^17.0.2",

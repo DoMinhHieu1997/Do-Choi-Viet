@@ -121,12 +121,13 @@ const AppMenu = (props) => {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems:'end', fontWeight:'600' }}>
-            <img width="30rem" src="../assets/logo.png"/>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems:'center', fontWeight:'600' }}>
+            <img width="35rem" src={Logo}/>
             <Typography
               variant="h6"
               noWrap
               component="div"
+              sx={{ fontWeight:'600', ml:1, lineHeight:.8, color:'#606060' }}
             >
               DOCHOIVIET
             </Typography>

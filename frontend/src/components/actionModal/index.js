@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+import "./ckeditor5.css";
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { useState } from "react";
@@ -25,8 +26,8 @@ import {
     Alert,
     LinearProgress
 } from "@mui/material";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import { CKEditor } from '@ckeditor/ckeditor5-react'
 
 const ActionModal = (props) => {
     const defaultConfig = {
@@ -43,33 +44,38 @@ const ActionModal = (props) => {
                 'outdent',
                 'indent',
                 '|',
-                'uploadImage',
+                'imageUpload',
                 'blockQuote',
                 'insertTable',
-                'mediaEmbed',
                 'undo',
                 'redo',
+                'fontBackgroundColor',
+                'fontFamily',
+                'fontColor',
+                'fontSize',
+                'underline',
+                'alignment'
             ]
         },
+        language: 'vi',
         image: {
             toolbar: [
+                'imageTextAlternative',
                 'imageStyle:inline',
                 'imageStyle:block',
                 'imageStyle:side',
-                '|',
-                'toggleImageCaption',
-                'imageTextAlternative',
+                "resizeImage:50",
+                "resizeImage:75",
+                "resizeImage:original",
             ]
         },
         table: {
-            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-        },
-        language: 'vi',
-        cloudServices: {
-            tokenUrl:
-              "https://87781.cke-cs.com/token/dev/5ae153e2ce55fe155b8ae35065d4cbe4f822c813f61cc3abd228aaf764e8?limit=10",
-            uploadUrl: "https://87781.cke-cs.com/easyimage/upload/",
-        },
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+            ]
+        }
     };
 
     const Input = styled('input') ({
@@ -99,8 +105,6 @@ const ActionModal = (props) => {
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [displayProgessBar, setDisplayProgressBar] = useState(false);
     let imageUploadArray = [];
-
-    const handleOpen = () => props.setOpenModal(true);
 
     const handleClose = () => {
         props.setOpenModal(false);
@@ -169,6 +173,39 @@ const ActionModal = (props) => {
         }
     }
 
+    class MyUploadAdapter {
+        constructor( loader ) {
+            this.loader = loader;
+        }
+
+        upload() {
+            return this.loader.file.then(
+                file => 
+                    new Promise((resolve, reject) => {
+                        const storageRef = ref(storage, `/files/${file.name}`);
+                        const uploadTask = uploadBytesResumable(storageRef, file);
+                        uploadTask.on("state_changed", 
+                            (snapshot) => {
+                                const progress = Math.round(
+                                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                                );
+                            }, 
+                            (err) => console.log(err),
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref)
+                                .then(url => {
+                                    console.log(url)
+                                });
+                            }
+                        )
+                    }
+                )
+            )
+        }
+
+        abort() {}
+    }
+
     return <>
         <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleCloseSnackBar}>
             <Alert onClose={() => setOpenSnackBar(false)} severity="error" sx={{ width: '100%' }}>
@@ -180,9 +217,8 @@ const ActionModal = (props) => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            sx={{ overflow: "scroll" }}
         >
-            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute">
+            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
                 <Typography id="modal-modal-title" variant="h5" className="fw-bold">
                     Tạo bài viết giới thiệu sản phẩm
                 </Typography>
@@ -233,11 +269,14 @@ const ActionModal = (props) => {
                         })
                     }
                 </Grid>
-                <TextField id="outlined-basic" label="Kích thước" variant="outlined" sx={{ mt:3 }}/>
+                <TextField id="outlined-basic" label="Kích thước" variant="outlined" sx={{ mt:3 }} />
+                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
+                    Mô tả sản phẩm
+                </Typography>
                 <TextareaAutosize
                     aria-label="empty textarea"
-                    placeholder="Mô tả sản phẩm"
-                    className="mt-4 rounded"
+                    placeholder="Nhập mô tả"
+                    className="rounded p-2"
                     minRows={3}
                     style={{ width: '100%' }}
                 />
@@ -247,9 +286,15 @@ const ActionModal = (props) => {
                     </Typography>
                     <CKEditor
                         config={defaultConfig}
-                        editor={ ClassicEditor }
+                        editor={ Editor }
                         data="<p>Hello from CKEditor 5!</p>"
-                        onReady={ editor => {} }
+                        onReady={ editor => {
+                            editor.plugins.get("FileRepository").createUploadAdapter = (
+                                loader
+                              ) => {
+                                return new MyUploadAdapter(loader);
+                            };
+                        }}
                         onChange={ ( event, editor ) => {} }
                         onBlur={ ( event, editor ) => {} }
                         onFocus={ ( event, editor ) => {} }
