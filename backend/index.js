@@ -1,18 +1,14 @@
 const express = require("express");
 const productRouter = require("./products");
-const authMdw = require("./auth");
+const authRouter = require("./auth");
 
 const app = express();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Hello");
-});
+app.use("/auth", authRouter);
+app.use("/products",productRouter);
 
 app.use("/static", express.static("assets"));
-
-app.use(authMdw);
-app.use("/products",productRouter);
 
 app.use((err, req, res, next) => {
     res.status(500).send(err.message);

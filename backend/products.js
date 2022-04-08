@@ -1,15 +1,13 @@
 const express = require("express");
-const { appendFile } = require("fs");
 const router = express.Router();
-const authMdw = require("./auth");
+const authMdw = require("./jwt");
 
 const products = [
     {id:1, name:"Cờ vua 2228"},
     {id:2, name:"Cờ vua 2236"},
 ];
 
-router.get("/", (req, res) => {
-    console.log(req.authUser);
+router.get("/", authMdw,(req, res) => {
     res.json(products);
 });
 
@@ -25,10 +23,6 @@ router.post("/", (req, res) => {
     }
     products.push(req.body);
     res.send("OK");
-});
-
-router.post("/patch", (req, res) => {
-    
 });
 
 router.delete("/add", (req, res) => {
