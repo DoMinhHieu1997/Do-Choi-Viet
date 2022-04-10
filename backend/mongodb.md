@@ -13,3 +13,5 @@
 - show dbs: show all database in mongodb
 - use <db_name>: create and switch to database
 - db.createCollection(<db_name>): create collection
+- db.collectionName.insertOne(): insert db
+- db.collection.find(): query documents
