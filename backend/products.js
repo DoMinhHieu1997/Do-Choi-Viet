@@ -1,33 +1,74 @@
 const express = require("express");
-const router = express.Router();
-const authMdw = require("./jwt");
+const { db } = require("./db");
+const { ObjectId } = require("mongodb");
+const ProductRouter = express.Router();
 
-const products = [
-    {id:1, name:"Cờ vua 2228"},
-    {id:2, name:"Cờ vua 2236"},
-];
-
-router.get("/", authMdw,(req, res) => {
+//read all
+ProductRouter.get("/", async (req, res) => {
+    const products = await db.products.find({}).toArray();
     res.json(products);
 });
 
-router.get("/:id", (req, res) => {
-    console.log(req.params);
-    const product = products.find((p) => p.id === req.params.id);
+//read by id
+ProductRouter.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    const product = await db.products
+        .find({
+            _id: ObjectId(id)
+        })
+        .toArray();
     res.json(product);
 });
 
-router.post("/", (req, res) => {
-    if (products.find( (p) => p.id === req.body.id) ) {
-        throw new Error("Product is already existed");
+//create
+ProductRouter.post("/", async (req, res) => {
+    const product = {
+        name: req.body.name,
+        size: req.body.size,
+        classify: req.body.classify
     }
-    products.push(req.body);
-    res.send("OK");
+    const result = await db.products.insertOne(product);
+    res.json({
+        insertedId: result.insertedId,
+        product: product
+    });
+    // if (products.find( (p) => p.id === req.body.id) ) {
+    //     throw new Error("Product is already existed");
+    // }
+    // products.push(req.body);
+    // res.send("OK");
 });
 
-router.delete("/add", (req, res) => {
-    products.splice(2,1);
-    res.send("OK");
+//update
+ProductRouter.patch("/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await db.products.updateOne(
+        {
+            _id: ObjectId(id)
+        },
+        {
+            $set: {
+                name: req.body.name,
+                size: req.body.size,
+                classify: req.body.classify
+            },
+            $currentDate: {
+                lastModified: true,
+            }
+        }
+    );
+    res.json(result);
 });
 
-module.exports = router;
+//delete
+ProductRouter.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await db.products.deleteOne({
+        _id: ObjectId(id)
+    });
+    res.json({
+        deletedId: id
+    });
+});
+
+module.exports = ProductRouter;
