@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 const { findByUsername, insertUser } = require("../database/user");
 
 const login = async (username, password) => {
@@ -12,7 +13,17 @@ const login = async (username, password) => {
         throw new Error("Mật khẩu không đúng");
     }
 
-    return existedUser;
+    const token = jwt.sign(
+        {
+            userId: existedUser._id
+        },
+        "MY_PRIVATE_KEY",
+        {
+            expiresIn: 60*60*24
+        }
+    )
+
+    return {user: existedUser, token:token};
 };
 
 const register = async (username, email, password) => {

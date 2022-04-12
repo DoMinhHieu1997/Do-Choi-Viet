@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.post("/login", async (req, res) => {
     try {
-        const loggedInUser = await AuthCtrl.login(
+        const loginInfo = await AuthCtrl.login(
             req.body.username, 
             req.body.password
         );
-        res.json(loggedInUser);
+        res.json(loginInfo);
     } catch(err) {
         res.status(400).send(err.message);
     }
