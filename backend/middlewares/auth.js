@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { findById } = require("../database/user");
 
 const authMdw = (req, res, next) => {
   const bearerToken = req.headers.authorization;
@@ -6,11 +7,12 @@ const authMdw = (req, res, next) => {
     res.status(400).send("Chưa có Jwt token");
   }
   const token = bearerToken.split(" ")[1];
-  jwt.decode(token, "MY_PRIVATE_KEY", (err, decodedInfo) => {
+  jwt.decode(token, "MY_PRIVATE_KEY", async (err, decodedInfo) => {
     if (err) {
       res.status(401).send("Token không phù hợp");
     } else {
-      console.log(decodedInfo);
+      const user = await findById(decodedInfo.userId);
+      req.user = user;
       next();
     }
   });

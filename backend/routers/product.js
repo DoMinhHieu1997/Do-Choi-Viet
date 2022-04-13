@@ -1,74 +1,82 @@
-// const express = require("express");
-// const { db } = require("./db");
-// const { ObjectId } = require("mongodb");
-// const ProductRouter = express.Router();
+const express = require("express");
+const router = express.Router();
+const ProductCtrl = require("../controllers/ProductController");
+const { authMdw } = require("../middlewares/auth");
 
-// //read all
-// ProductRouter.get("/", async (req, res) => {
-//     const products = await db.products.find({}).toArray();
-//     res.json(products);
-// });
+//read all
+router.get("/category/:category", async (req, res) => {
+    try {
+        const listProduct = await ProductCtrl.getListClassifiedProduct(
+            req.params.category
+        );
+        res.json(listProduct);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
 
-// //read by id
-// ProductRouter.get("/:id", async (req, res) => {
-//     const id = req.params.id;
-//     const product = await db.products
-//         .find({
-//             _id: ObjectId(id)
-//         })
-//         .toArray();
-//     res.json(product);
-// });
+//read by id
+router.get("/:id", async (req, res) => {
+    try {
+        const productInfo = await ProductCtrl.getProductById(
+            req.params.id
+        );
+        res.json(productInfo);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
 
-// //create
-// ProductRouter.post("/", async (req, res) => {
-//     const product = {
-//         name: req.body.name,
-//         size: req.body.size,
-//         classify: req.body.classify
-//     }
-//     const result = await db.products.insertOne(product);
-//     res.json({
-//         insertedId: result.insertedId,
-//         product: product
-//     });
-//     // if (products.find( (p) => p.id === req.body.id) ) {
-//     //     throw new Error("Product is already existed");
-//     // }
-//     // products.push(req.body);
-//     // res.send("OK");
-// });
+//create
+router.post("/", authMdw, async (req, res) => {
+    try {
+        if (req.user) {
+                const product = {
+                name: req.body.name,
+                size: req.body.size,
+                classify: req.body.classify,
+                type: req.body.type
+            }
+            const result = await ProductCtrl.createNewProduct(product);
+            res.json(result);
+        } else {
+            res.json("Thêm sản phẩm không thành công");
+        }
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
 
-// //update
-// ProductRouter.patch("/:id", async (req, res) => {
-//     const id = req.params.id;
-//     const result = await db.products.updateOne(
-//         {
-//             _id: ObjectId(id)
-//         },
-//         {
-//             $set: {
-//                 name: req.body.name,
-//                 size: req.body.size,
-//                 classify: req.body.classify
-//             },
-//             $currentDate: {
-//                 lastModified: true,
-//             }
-//         }
-//     );
-//     res.json(result);
-// });
+//update
+router.patch("/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await db.products.updateOne(
+        {
+            _id: ObjectId(id)
+        },
+        {
+            $set: {
+                name: req.body.name,
+                size: req.body.size,
+                classify: req.body.classify
+            },
+            $currentDate: {
+                lastModified: true,
+            }
+        }
+    );
+    res.json(result);
+});
 
-// //delete
-// ProductRouter.delete("/:id", async (req, res) => {
-//     const id = req.params.id;
-//     const result = await db.products.deleteOne({
-//         _id: ObjectId(id)
-//     });
-//     res.json({
-//         deletedId: id
-//     });
-// });
+//delete
+router.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await db.products.deleteOne({
+        _id: ObjectId(id)
+    });
+    res.json({
+        deletedId: id
+    });
+});
 
-// module.exports = ProductRouter;
+module.exports = router;
