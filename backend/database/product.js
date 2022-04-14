@@ -1,5 +1,6 @@
 const { db } = require("./");
 const { ObjectId } = require("mongodb");
+const req = require("express/lib/request");
 
 const findProductById = async (productId) => {
     const product = await db.products
@@ -28,8 +29,24 @@ const createProduct = async (product) => {
     };
 };
 
-const updatedProduct = async(productId) => {
-
+const updatedProduct = async(productInfo) => {
+    const result = await db.products.updateOne(
+        {
+            _id: ObjectId(productInfo.id)
+        },
+        {
+            $set: {
+                name: productInfo?.name,
+                size: productInfo?.size,
+                classify: productInfo?.classify,
+                type: productInfo?.type,
+                images: productInfo?.images,
+                content: productInfo?.content,
+                description: productInfo?.description
+            }
+        }
+    );
+    return result;
 };
 
 const deletedProduct = async(productId) => {

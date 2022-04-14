@@ -1,4 +1,10 @@
-const { findProductById, findListProduct, createProduct, deletedProduct } = require("../database/product");
+const { 
+    findProductById, 
+    findListProduct, 
+    createProduct, 
+    updatedProduct, 
+    deletedProduct 
+} = require("../database/product");
 
 const getProductById = async (productId) => {
     const product = await findProductById(productId);
@@ -30,6 +36,16 @@ const createNewProduct = async (product) => {
     return newProduct;
 }
 
+const updateProduct = async (forUpdate) => {
+    const result = await updatedProduct(forUpdate);
+
+    if (!result) {
+        throw new Error("Cập nhật sản phẩm không thành công - controller");
+    }
+
+    return result;
+}
+
 const deleteProduct = async (productId) => {
     const result = await deletedProduct(productId);
 
@@ -40,4 +56,4 @@ const deleteProduct = async (productId) => {
     return result;
 }
 
-module.exports = { getProductById, getListClassifiedProduct, createNewProduct, deleteProduct };
+module.exports = { getProductById, getListClassifiedProduct, createNewProduct, updateProduct, deleteProduct };

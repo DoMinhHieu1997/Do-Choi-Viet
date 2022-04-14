@@ -48,29 +48,27 @@ router.post("/", authMdw, async (req, res) => {
 });
 
 //update
-router.patch("/:id", async (req, res) => {
+router.patch("/update/:id", authMdw, async (req, res) => {
     try {
-
+        if (req.user) {
+            const forUpdate = {
+                id: req.params.id,
+                name: req.body.name,
+                size: req.body.size,
+                classify: req.body.classify,
+                type: req.body.type,
+                images: req.body?.images,
+                content: req.body?.content,
+                description: req.body?.description
+            }
+            const result = await ProductCtrl.updateProduct(forUpdate);
+            res.json(result);
+        } else {
+            res.json("Cập nhật sản phẩm không thành công");
+        }
     } catch (err) {
         res.status(400).send(err.message);
     }
-    const id = req.params.id;
-    const result = await db.products.updateOne(
-        {
-            _id: ObjectId(id)
-        },
-        {
-            $set: {
-                name: req.body.name,
-                size: req.body.size,
-                classify: req.body.classify
-            },
-            $currentDate: {
-                lastModified: true,
-            }
-        }
-    );
-    res.json(result);
 });
 
 //delete
