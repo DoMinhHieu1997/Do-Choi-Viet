@@ -1,4 +1,4 @@
-const { findProductById, findListProduct, createProduct } = require("../database/product");
+const { findProductById, findListProduct, createProduct, deletedProduct } = require("../database/product");
 
 const getProductById = async (productId) => {
     const product = await findProductById(productId);
@@ -30,4 +30,14 @@ const createNewProduct = async (product) => {
     return newProduct;
 }
 
-module.exports = { getProductById, getListClassifiedProduct, createNewProduct };
+const deleteProduct = async (productId) => {
+    const result = await deletedProduct(productId);
+
+    if (!result) {
+        throw new Error("Xóa sản phẩm không thành công");
+    }
+
+    return result;
+}
+
+module.exports = { getProductById, getListClassifiedProduct, createNewProduct, deleteProduct };

@@ -33,7 +33,12 @@ const updatedProduct = async(productId) => {
 };
 
 const deletedProduct = async(productId) => {
-
+    const result = await db.products.deleteOne({
+        _id: ObjectId(productId)
+    });
+    return {
+        deletedId: productId
+    };
 };
 
 module.exports = { findProductById, findListProduct, createProduct, updatedProduct, deletedProduct };

@@ -7,7 +7,7 @@ const authMdw = (req, res, next) => {
     res.status(400).send("Chưa có Jwt token");
   }
   const token = bearerToken.split(" ")[1];
-  jwt.decode(token, "MY_PRIVATE_KEY", async (err, decodedInfo) => {
+  jwt.verify(token, "MY_PRIVATE_KEY", async (err, decodedInfo) => {
     if (err) {
       res.status(401).send("Token không phù hợp");
     } else {

@@ -49,6 +49,11 @@ router.post("/", authMdw, async (req, res) => {
 
 //update
 router.patch("/:id", async (req, res) => {
+    try {
+
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
     const id = req.params.id;
     const result = await db.products.updateOne(
         {
@@ -69,14 +74,18 @@ router.patch("/:id", async (req, res) => {
 });
 
 //delete
-router.delete("/:id", async (req, res) => {
-    const id = req.params.id;
-    const result = await db.products.deleteOne({
-        _id: ObjectId(id)
-    });
-    res.json({
-        deletedId: id
-    });
+router.delete("/:id", authMdw, async (req, res) => {
+    try {
+        if (req.user) {
+            const id = req.params.id;
+            const result = await ProductCtrl.deleteProduct(id);
+            res.json(result);
+        } else {
+            res.json("Xóa sản phẩm không thành công");
+        }
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
 });
 
 module.exports = router;
