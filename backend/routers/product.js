@@ -6,10 +6,10 @@ const { authMdw } = require("../middlewares/auth");
 //read all
 router.get("/category/:category", async (req, res) => {
     try {
-        const listProduct = await ProductCtrl.getListClassifiedProduct(
+        const result = await ProductCtrl.getListClassifiedProduct(
             req.params.category
         );
-        res.json(listProduct);
+        res.json(result);
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -35,7 +35,10 @@ router.post("/", authMdw, async (req, res) => {
                 name: req.body.name,
                 size: req.body.size,
                 classify: req.body.classify,
-                type: req.body.type
+                type: req.body.type,
+                images: req.body?.images,
+                content: req.body?.content,
+                description: req.body?.description
             }
             const result = await ProductCtrl.createNewProduct(product);
             res.json(result);

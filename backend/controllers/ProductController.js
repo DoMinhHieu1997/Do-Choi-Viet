@@ -5,46 +5,47 @@ const {
     updatedProduct, 
     deletedProduct 
 } = require("../database/product");
+const responseMessage = require("../message");
 
 const getProductById = async (productId) => {
-    const product = await findProductById(productId);
+    const result = await findProductById(productId);
 
-    if (!product) {
+    if (!result) {
         throw new Error("Không tìm thấy sản phẩm phù hợp");
     } 
 
-    return product;
+    return responseMessage("success",0,result);
 };
 
 const getListClassifiedProduct = async (classify) => {
-    const listProduct = await findListProduct(classify);
+    const result = await findListProduct(classify);
 
-    if (!listProduct) {
+    if (!result) {
         throw new Error("Không tìm thấy danh sách sản phẩm phù hợp");
     }
 
-    return listProduct;
-} 
+    return responseMessage("success",0,result);
+}; 
 
 const createNewProduct = async (product) => {
-    const newProduct = await createProduct(product);
+    const result = await createProduct(product);
 
-    if (!newProduct) {
+    if (!result) {
         throw new Error("Tạo sản phẩm không thành công");
     }
 
-    return newProduct;
-}
+    return responseMessage("success",0,result);
+};
 
 const updateProduct = async (forUpdate) => {
     const result = await updatedProduct(forUpdate);
 
     if (!result) {
-        throw new Error("Cập nhật sản phẩm không thành công - controller");
+        throw new Error("Cập nhật sản phẩm không thành công");
     }
 
-    return result;
-}
+    return responseMessage("success",0,result);
+};
 
 const deleteProduct = async (productId) => {
     const result = await deletedProduct(productId);
@@ -53,7 +54,7 @@ const deleteProduct = async (productId) => {
         throw new Error("Xóa sản phẩm không thành công");
     }
 
-    return result;
-}
+    return responseMessage("success",0,result);
+};
 
 module.exports = { getProductById, getListClassifiedProduct, createNewProduct, updateProduct, deleteProduct };

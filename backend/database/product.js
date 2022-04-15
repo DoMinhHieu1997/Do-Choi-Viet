@@ -1,6 +1,5 @@
 const { db } = require("./");
 const { ObjectId } = require("mongodb");
-const req = require("express/lib/request");
 
 const findProductById = async (productId) => {
     const product = await db.products
