@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ProductCtrl = require("../controllers/ProductController");
 const { authMdw } = require("../middlewares/auth");
+const responseMessage = require("../message");
 
 //read all
 router.get("/category/:category", async (req, res) => {
@@ -16,14 +17,14 @@ router.get("/category/:category", async (req, res) => {
 });
 
 //read by id
-router.get("/:id", async (req, res) => {
+router.get("/detail/:id", async (req, res) => {
     try {
         const productInfo = await ProductCtrl.getProductById(
             req.params.id
         );
         res.json(productInfo);
     } catch (err) {
-        res.status(400).send(err.message);
+        res.json(responseMessage("error",1,''));
     }
 });
 
