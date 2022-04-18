@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import { Skeleton, Card, Grid, Container, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductItem";
+import axiosInstance from '../../axios';
 
 const ProductPage = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const [listProduct, setListProduct] = useState();
+    const [listProduct, setListProduct] = useState(null);
     const [page, setPage] = useState(1);
     const [title, setTitle] = useState('');
     const param =  useParams();
@@ -54,10 +55,30 @@ const ProductPage = () => {
         }
     }
 
+    const getProductList = (classify) => {
+        axiosInstance
+        .get(`/products/category/${classify}`)
+        .then((res) => {
+            const result = res.data;
+
+            if (result.messageCode === 0) {
+                setListProduct(result.data);
+                setIsLoading(false);
+            } else {
+                navigate('/');
+            }
+        });
+    }
+
+    useEffect(() => {
+        
+    }, [])
+
     useEffect(() => {
         setIsLoading(true)
         getProductTitle(param.type);
         setIsLoading(false);
+        getProductList(param.type);
     }, [param.type])
 
     return <Container sx={{mt:15, mb:10}}>
@@ -65,9 +86,10 @@ const ProductPage = () => {
         <div className='mx-auto mb-4' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
         <Grid container spacing={2}>
             {
-                Array(8).fill(0).map((item, index) => {
-                    return <ProductCard key={index}/>
-                })
+                listProduct !== null
+                    && listProduct.map((item, index) => {
+                        return <ProductCard key={index+'pc'} infor={item}/>
+                    })
             }
             {
                 isLoading && Array(8).fill(0).map((item, index) => {

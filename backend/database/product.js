@@ -13,7 +13,7 @@ const findProductById = async (productId) => {
 const findListProduct = async (classify) => {
     const listProduct = await db.products
         .find({
-            classify: 2
+            classify: classify
         })
         .toArray();
     return listProduct;

@@ -104,6 +104,13 @@ const ActionModal = (props) => {
     const [progress, setProgress] = useState(0);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [displayProgessBar, setDisplayProgressBar] = useState(false);
+    const [prdClassify, setPrdClassify] = useState("");
+    const [prdImages, setPrdImages] = useState([]);
+    const [prdContent, setPrdContent] = useState("");
+    const [prdType, setPrdType] = useState("");
+    const [prdSize, setPrdSize] = useState("");
+    const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
+
     let imageUploadArray = [];
 
     const handleClose = () => {
@@ -116,11 +123,26 @@ const ActionModal = (props) => {
         setOpenSnackBar(false);
     }
 
+    // const handleCheckVirus = () => {
+    //     const options = {
+    //         method: 'POST',
+    //         headers: {Accept: 'text/plain', 'Content-Type': 'application/x-www-form-urlencoded'},
+    //         body: new URLSearchParams({
+    //           apikey: 'f8836037b94a1754c9ac0c8a9d747572aeda729473059a9bcdd0a5819142eed8',
+    //           file: 'data:image/svg+xml;name=Group%2075.svg;base64,PHN2ZyB3aWR0aD0iMzI2IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMzI2IDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMCAySDE0Ny41TDE2My41IDE2LjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPgo8cGF0aCBkPSJNMzI1LjUgMkgxNzhMMTYyIDE2LjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPgo8L3N2Zz4K'
+    //         })
+    //     };
+        
+    //     fetch('https://www.virustotal.com/vtapi/v2/file/scan', options)
+    //     .then(response => response.json())
+    //     .then(response => console.log(response))
+    //     .catch(err => console.error(err));
+    // }
+
     const handleImageUpload = (e) => {
         const file = e.target.files;
         
         for (let i = 0; i < file.length; i++) {
-            console.log(file[i].type);
             if (file[i].type === "image/png" || file[i].type ==="image/gif" || file[i].type ==="image/jpeg") {
                 setImageListPrev(prev => [...prev,file[i]]);
             } else {
@@ -163,16 +185,6 @@ const ActionModal = (props) => {
         }
     }
 
-    const handleModalAction = () => {
-        if (imageListPrev.length > 0) {
-            imageListPrev.map(file => {
-                uploadFiles(file);
-            })
-        } else {
-            setOpenSnackBar(true);
-        }
-    }
-
     class MyUploadAdapter {
         constructor( loader ) {
             this.loader = loader;
@@ -206,6 +218,31 @@ const ActionModal = (props) => {
         abort() {}
     }
 
+    const handleClassifyChange = (event) => {
+        const value = event.target.value;
+        setPrdClassify(value);
+    }
+
+    const handleChangeSize = (event) => {
+        const value = event.target.value;
+        if (value !== '') {
+            setSizeIsEmpty(false);
+            setPrdSize(value);
+        } else {
+            setSizeIsEmpty(true);
+        }
+    }
+
+    const handleModalAction = () => {
+        if (imageListPrev.length > 0) {
+            imageListPrev.map(file => {
+                uploadFiles(file);
+            })
+        } else {
+            setOpenSnackBar(true);
+        }
+    }
+
     return <>
         <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={handleCloseSnackBar}>
             <Alert onClose={() => setOpenSnackBar(false)} severity="error" sx={{ width: '100%' }}>
@@ -218,7 +255,7 @@ const ActionModal = (props) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
+            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute col-lg-9 col-11" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
                 <Typography id="modal-modal-title" variant="h5" className="fw-bold">
                     Tạo bài viết giới thiệu sản phẩm
                 </Typography>
@@ -227,16 +264,16 @@ const ActionModal = (props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // value={age}
+                        value={prdClassify}
                         label="Loại sản phẩm"
-                        // onChange={handleChange}
+                        onChange={handleClassifyChange}
                     >
-                        <MenuItem>Cờ vua</MenuItem>
-                        <MenuItem>Cá ngựa</MenuItem>
-                        <MenuItem>Cờ tướng</MenuItem>
-                        <MenuItem>Xếp hình</MenuItem>
-                        <MenuItem>Ngoài trời</MenuItem>
-                        <MenuItem>Khác</MenuItem>
+                        <MenuItem value={"co-vua"}>Cờ vua</MenuItem>
+                        <MenuItem value={"ca-ngua"}>Cá ngựa</MenuItem>
+                        <MenuItem value={"co-tuong"}>Cờ tướng</MenuItem>
+                        <MenuItem value={"xep-hinh"}>Xếp hình</MenuItem>
+                        <MenuItem value={"ngoai-troi"}>Ngoài trời</MenuItem>
+                        <MenuItem value={"khac"}>Khác</MenuItem>
                     </Select>
                 </FormControl>
                 <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
@@ -269,7 +306,17 @@ const ActionModal = (props) => {
                         })
                     }
                 </Grid>
-                <TextField id="outlined-basic" label="Kích thước" variant="outlined" sx={{ mt:3 }} />
+                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
+                    Kích thước sản phẩm
+                </Typography>
+                <TextField 
+                    error={sizeIsEmpty}
+                    helperText={sizeIsEmpty ? "Mời nhập kích thước sản phẩm" : ""}
+                    id="outlined-basic" 
+                    label="Kích thước" 
+                    variant="outlined" 
+                    onChange={handleChangeSize}
+                />
                 <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
                     Mô tả sản phẩm
                 </Typography>
@@ -287,7 +334,6 @@ const ActionModal = (props) => {
                     <CKEditor
                         config={defaultConfig}
                         editor={ Editor }
-                        data="<p>Hello from CKEditor 5!</p>"
                         onReady={ editor => {
                             editor.plugins.get("FileRepository").createUploadAdapter = (
                                 loader
@@ -295,7 +341,10 @@ const ActionModal = (props) => {
                                 return new MyUploadAdapter(loader);
                             };
                         }}
-                        onChange={ ( event, editor ) => {} }
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setPrdContent(data);
+                        } }
                         onBlur={ ( event, editor ) => {} }
                         onFocus={ ( event, editor ) => {} }
                     />
