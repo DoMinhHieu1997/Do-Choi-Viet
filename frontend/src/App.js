@@ -8,6 +8,7 @@ import Detail from "./components/detailpage";
 import ActionModal from "./components/actionModal";
 import CreateButton from "./components/actionModal/CreateButton";
 import { useState } from "react";
+import Login from "./components/loginpage";
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
@@ -17,6 +18,7 @@ function App() {
       <AppMenu/>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
         {/* <Route path="/dang-nhap" element={<Login />} />

@@ -37,7 +37,11 @@ textarea {
   transition: .5s;
 }
 .bg-antiquewhite {
-  background-color:antiquewhite
+  background-color:antiquewhite;
+}
+.login-page-background {
+  background-image:url('./images/login-page-background.jpg');
+  opacity: 0.3;
 }
 .classify-icon {
   background-position: center;

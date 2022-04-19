@@ -27,7 +27,8 @@ import {
     LinearProgress
 } from "@mui/material";
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
-import { CKEditor } from '@ckeditor/ckeditor5-react'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import axiosInstance from '../../axios';
 
 const ActionModal = (props) => {
     const defaultConfig = {
@@ -110,6 +111,8 @@ const ActionModal = (props) => {
     const [prdType, setPrdType] = useState("");
     const [prdSize, setPrdSize] = useState("");
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
+    const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
+    const userToken = " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU1M2U2MGE2MjYyMDQ0Nzk0ZTNiMDQiLCJpYXQiOjE2NTAzMzY2MDQsImV4cCI6MTY1MDQyMzAwNH0.hJeW2Xc3P6LtaewFSMzkRGzDxdwQjt8hxXEsG0x0kso";
 
     let imageUploadArray = [];
 
@@ -241,6 +244,17 @@ const ActionModal = (props) => {
         } else {
             setOpenSnackBar(true);
         }
+        axiosInstance
+        .get(`/products`)
+        .then((res) => {
+            const result = res.data;
+
+            if (result.messageCode === 0) {
+                
+            } else {
+                
+            }
+        });
     }
 
     return <>
@@ -267,6 +281,7 @@ const ActionModal = (props) => {
                         value={prdClassify}
                         label="Loại sản phẩm"
                         onChange={handleClassifyChange}
+                        error={classifyIsEmpty}
                     >
                         <MenuItem value={"co-vua"}>Cờ vua</MenuItem>
                         <MenuItem value={"ca-ngua"}>Cá ngựa</MenuItem>

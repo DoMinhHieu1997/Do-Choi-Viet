@@ -17,7 +17,7 @@ const AppFooter = () => {
         {text:'Khác',link:'/san-pham/khac'}
     ];
 
-    return <div className='mt-5 border-top'>
+    return <div className='border-top'>
         <Container>
             <Grid container sx={{py:5, alignItems:"center"}}>
                 <Grid item sx={{ flexGrow:1, display:'flex', alignItems:'end' }}>
