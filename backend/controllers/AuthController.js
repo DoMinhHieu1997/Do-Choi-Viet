@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { findByUsername, insertUser } = require("../database/user");
+const responseMessage = require("../message");
 
 const login = async (username, password) => {
     const existedUser = await findByUsername(username);
@@ -23,7 +24,7 @@ const login = async (username, password) => {
         }
     )
 
-    return {user: existedUser, token:token};
+    return responseMessage("success",0,{user: existedUser, token:token});
 };
 
 const register = async (username, email, password) => {

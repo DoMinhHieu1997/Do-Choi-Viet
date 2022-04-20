@@ -84,4 +84,7 @@ textarea {
 .ck-content {
   min-height: 10rem;
 }
+.btn-login {
+  background-color: #f79207 !important;
+}
 

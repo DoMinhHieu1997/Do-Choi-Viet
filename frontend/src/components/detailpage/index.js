@@ -10,7 +10,6 @@ const Detail = () => {
     const {id} = useParams();
     let navigate = useNavigate();
     const [productInfo, setProductInfo] = useState(null);
-    console.log(productInfo);
 
     useEffect(() => {
         axiosInstance
@@ -19,8 +18,7 @@ const Detail = () => {
             const result = res.data;
 
             if (result.messageCode === 0) {
-                console.log(result.data);
-                // setProductInfo(result.data[0]);
+                setProductInfo(result.data[0]);
             } else {
                 navigate('/');
             }

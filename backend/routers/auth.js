@@ -1,15 +1,14 @@
 const express = require("express");
 const AuthCtrl = require("../controllers/AuthController");
-
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
     try {
-        const loginInfo = await AuthCtrl.login(
+        const result = await AuthCtrl.login(
             req.body.username, 
             req.body.password
         );
-        res.json(loginInfo);
+        res.json(result);
     } catch(err) {
         res.status(400).send(err.message);
     }

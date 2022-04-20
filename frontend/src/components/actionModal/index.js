@@ -2,7 +2,8 @@ import { styled } from '@mui/material/styles';
 import "./ckeditor5.css";
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import { useState } from "react";
+import { useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import { storage } from "../../firebase";
 import PropTypes from 'prop-types';
 import {
@@ -31,6 +32,9 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import axiosInstance from '../../axios';
 
 const ActionModal = (props) => {
+
+    const navigate = useNavigate(); 
+
     const defaultConfig = {
         toolbar: {
             items: [
@@ -105,14 +109,17 @@ const ActionModal = (props) => {
     const [progress, setProgress] = useState(0);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [displayProgessBar, setDisplayProgressBar] = useState(false);
-    const [prdClassify, setPrdClassify] = useState("");
-    const [prdImages, setPrdImages] = useState([]);
-    const [prdContent, setPrdContent] = useState("");
-    const [prdType, setPrdType] = useState("");
-    const [prdSize, setPrdSize] = useState("");
+    const [prdInfoProperties, setPrdInfoProperties] = useState({
+        name:'',
+        size:'',
+        classify:0,
+        type:0,
+        images:[],
+        content:''
+    });
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
+    const [nameIsEmpty, setNameIsEmpty] = useState(false);
     const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
-    const userToken = " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU1M2U2MGE2MjYyMDQ0Nzk0ZTNiMDQiLCJpYXQiOjE2NTAzMzY2MDQsImV4cCI6MTY1MDQyMzAwNH0.hJeW2Xc3P6LtaewFSMzkRGzDxdwQjt8hxXEsG0x0kso";
 
     let imageUploadArray = [];
 
@@ -126,21 +133,19 @@ const ActionModal = (props) => {
         setOpenSnackBar(false);
     }
 
-    // const handleCheckVirus = () => {
-    //     const options = {
-    //         method: 'POST',
-    //         headers: {Accept: 'text/plain', 'Content-Type': 'application/x-www-form-urlencoded'},
-    //         body: new URLSearchParams({
-    //           apikey: 'f8836037b94a1754c9ac0c8a9d747572aeda729473059a9bcdd0a5819142eed8',
-    //           file: 'data:image/svg+xml;name=Group%2075.svg;base64,PHN2ZyB3aWR0aD0iMzI2IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMzI2IDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMCAySDE0Ny41TDE2My41IDE2LjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPgo8cGF0aCBkPSJNMzI1LjUgMkgxNzhMMTYyIDE2LjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPgo8L3N2Zz4K'
-    //         })
-    //     };
-        
-    //     fetch('https://www.virustotal.com/vtapi/v2/file/scan', options)
-    //     .then(response => response.json())
-    //     .then(response => console.log(response))
-    //     .catch(err => console.error(err));
-    // }
+    const handleChangeName = (event) => {
+        const value = event.target.value;
+
+        if (value) {
+            setPrdInfoProperties({
+                ...prdInfoProperties,
+                name: value
+            });
+            setNameIsEmpty(false);
+        } else {
+            setNameIsEmpty(true);
+        }
+    }
 
     const handleImageUpload = (e) => {
         const file = e.target.files;
@@ -173,7 +178,6 @@ const ActionModal = (props) => {
                 .then(url => {
                     setDisplayProgressBar(false);
                     imageUploadArray.push(url);
-                    console.log(imageUploadArray);
                 });
             }
         )
@@ -223,14 +227,20 @@ const ActionModal = (props) => {
 
     const handleClassifyChange = (event) => {
         const value = event.target.value;
-        setPrdClassify(value);
+        setPrdInfoProperties({
+            ...prdInfoProperties,
+            classify: value
+        })
     }
 
     const handleChangeSize = (event) => {
         const value = event.target.value;
         if (value !== '') {
             setSizeIsEmpty(false);
-            setPrdSize(value);
+            setPrdInfoProperties({
+                ...prdInfoProperties,
+                size: value
+            })
         } else {
             setSizeIsEmpty(true);
         }
@@ -244,17 +254,31 @@ const ActionModal = (props) => {
         } else {
             setOpenSnackBar(true);
         }
-        axiosInstance
-        .get(`/products`)
-        .then((res) => {
-            const result = res.data;
 
-            if (result.messageCode === 0) {
-                
-            } else {
-                
-            }
-        });
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+
+        } else {
+            axiosInstance
+            .post(`/products`,
+                prdInfoProperties,
+                {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    },
+                }
+            )
+            .then((res) => {
+                const result = res.data;
+
+                if (result.messageCode === 0) {
+                    navigate(`/chi-tiet/${result.data.insertedId}`);
+                } else {
+
+                }
+            });
+        }
     }
 
     return <>
@@ -269,16 +293,28 @@ const ActionModal = (props) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute col-lg-9 col-11" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
+            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute col-lg-8 col-11" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
                 <Typography id="modal-modal-title" variant="h5" className="fw-bold">
                     Tạo bài viết giới thiệu sản phẩm
                 </Typography>
+                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
+                    Tên sản phẩm
+                </Typography>
+                <TextField 
+                    error={nameIsEmpty}
+                    helperText={nameIsEmpty ? "Mời nhập tên sản phẩm" : ""}
+                    id="outlined-basic" 
+                    label="Tên sản phẩm" 
+                    fullWidth
+                    variant="outlined" 
+                    onChange={handleChangeName}
+                />
                 <FormControl fullWidth sx={{ mt:3 }}>
                     <InputLabel id="demo-simple-select-label">Loại sản phẩm</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={prdClassify}
+                        value={prdInfoProperties.classify}
                         label="Loại sản phẩm"
                         onChange={handleClassifyChange}
                         error={classifyIsEmpty}
@@ -358,13 +394,16 @@ const ActionModal = (props) => {
                         }}
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();
-                            setPrdContent(data);
+                            setPrdInfoProperties({
+                                ...prdInfoProperties,
+                                content: data
+                            })
                         } }
                         onBlur={ ( event, editor ) => {} }
                         onFocus={ ( event, editor ) => {} }
                     />
                 </div>
-                <div className="mt-3 text-end">
+                <div className="mt-4 text-end">
                     <Button variant="contained" sx={{ mr:3 }} onClick={handleModalAction}>Tạo bài viết</Button>
                     <Button variant="contained" onClick={handleClose}>Hủy tạo</Button>
                 </div>
