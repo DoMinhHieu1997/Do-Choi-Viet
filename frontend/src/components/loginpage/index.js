@@ -48,13 +48,11 @@ const Login = () => {
         } else if (!passwordInput.password) {
             setPasswordIsEmpty(true);
         } else {
-            // console.log(username, passwordInput.password);
             axiosInstance
             .post(`/auth/login`, {username:username, password: passwordInput.password})
             .then((res) => {
                 const result = res.data;
                 if (result.messageCode === 0) {
-                    console.log(result)
                     localStorage.setItem('token', result.data.token);
                     navigate('/');
                 } else {

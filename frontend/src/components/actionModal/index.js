@@ -122,8 +122,7 @@ const ActionModal = (props) => {
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
     const [nameIsEmpty, setNameIsEmpty] = useState(false);
     const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
-
-    let imageUploadArray = [];
+    const [imageUploadArray] = useState([]);
 
     const handleClose = () => {
         props.setOpenModal(false);
@@ -182,10 +181,6 @@ const ActionModal = (props) => {
                 .then(url => {
                     setDisplayProgressBar(false);
                     imageUploadArray.push(url);
-                    // setPrdInfoProperties({
-                    //     ...prdInfoProperties,
-                    //     images:imageUploadArray
-                    // })
                 });
             }
         )
@@ -255,18 +250,11 @@ const ActionModal = (props) => {
     }
 
     const handleModalAction = () => {
-        // if (imageListPrev.length > 0) {
-        //     imageListPrev.map( file => {
-        //         uploadFiles(file);
-        //     });
-        // }
-
         const token = getToken(); 
 
         if (!token) {
 
         } else {
-            console.log(imageUploadArray);
             // axiosInstance
             // .post(`/products`,
             //     {
