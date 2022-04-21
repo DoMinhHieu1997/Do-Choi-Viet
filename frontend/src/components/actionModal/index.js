@@ -30,6 +30,8 @@ import {
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import axiosInstance from '../../axios';
+import { getToken } from '../../common';
+import { async } from '@firebase/util';
 
 const ActionModal = (props) => {
 
@@ -114,8 +116,8 @@ const ActionModal = (props) => {
         size:'',
         classify:0,
         type:0,
-        images:[],
-        content:''
+        content:'',
+        images:[]
     });
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
     const [nameIsEmpty, setNameIsEmpty] = useState(false);
@@ -153,6 +155,7 @@ const ActionModal = (props) => {
         for (let i = 0; i < file.length; i++) {
             if (file[i].type === "image/png" || file[i].type ==="image/gif" || file[i].type ==="image/jpeg") {
                 setImageListPrev(prev => [...prev,file[i]]);
+                uploadFiles(file[i]);
             } else {
                 setOpenSnackBar(true);
             }
@@ -163,6 +166,7 @@ const ActionModal = (props) => {
         if (!file) return;
         const storageRef = ref(storage, `/files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
+        setDisplayProgressBar(true);
 
         await uploadTask.on("state_changed", 
             (snapshot) => {
@@ -178,6 +182,10 @@ const ActionModal = (props) => {
                 .then(url => {
                     setDisplayProgressBar(false);
                     imageUploadArray.push(url);
+                    // setPrdInfoProperties({
+                    //     ...prdInfoProperties,
+                    //     images:imageUploadArray
+                    // })
                 });
             }
         )
@@ -213,7 +221,7 @@ const ActionModal = (props) => {
                             () => {
                                 getDownloadURL(uploadTask.snapshot.ref)
                                 .then(url => {
-                                    console.log(url)
+                                    resolve({ default: url });
                                 });
                             }
                         )
@@ -247,37 +255,44 @@ const ActionModal = (props) => {
     }
 
     const handleModalAction = () => {
-        if (imageListPrev.length > 0) {
-            imageListPrev.map(file => {
-                uploadFiles(file);
-            })
-        } else {
-            setOpenSnackBar(true);
-        }
+        // if (imageListPrev.length > 0) {
+        //     imageListPrev.map( file => {
+        //         uploadFiles(file);
+        //     });
+        // }
 
-        const token = localStorage.getItem('token');
+        const token = getToken(); 
 
         if (!token) {
 
         } else {
-            axiosInstance
-            .post(`/products`,
-                prdInfoProperties,
-                {
-                    headers: {
-                        Authorization: "Bearer " + token
-                    },
-                }
-            )
-            .then((res) => {
-                const result = res.data;
+            console.log(imageUploadArray);
+            // axiosInstance
+            // .post(`/products`,
+            //     {
+            //         name: prdInfoProperties.name,
+            //         size: prdInfoProperties.size,
+            //         content: prdInfoProperties.content,
+            //         classify: prdInfoProperties.classify,
+            //         type: prdInfoProperties.type,
+            //         images: imageUploadArray
+            //     },
+            //     {
+            //         headers: {
+            //             Authorization: "Bearer " + token
+            //         },
+            //     }
+            // )
+            // .then((res) => {
+            //     const result = res.data;
 
-                if (result.messageCode === 0) {
-                    navigate(`/chi-tiet/${result.data.insertedId}`);
-                } else {
+            //     if (result.messageCode === 0) {
+            //         props.setOpenModal(false);
+            //         navigate(`/chi-tiet/${result.data.insertedId}`);
+            //     } else {
 
-                }
-            });
+            //     }
+            // });
         }
     }
 
@@ -293,13 +308,16 @@ const ActionModal = (props) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute col-lg-8 col-11" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
-                <Typography id="modal-modal-title" variant="h5" className="fw-bold">
-                    Tạo bài viết giới thiệu sản phẩm
-                </Typography>
-                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
+            <Box className="top-50 start-50 translate-middle bg-white p-4 position-absolute col-lg-7 col-11" style={{ height:"80vh", overflowY:"scroll", overflowX:"hidden" }}>
+                <div className="d-flex">
+                    <div className="me-2" style={{width:"4px", backgroundColor:"#f79207"}}></div>
+                    <Typography id="modal-modal-title" variant="h5" className="fw-bold">
+                        Tạo bài viết giới thiệu sản phẩm
+                    </Typography>
+                </div>
+                {/* <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
                     Tên sản phẩm
-                </Typography>
+                </Typography> */}
                 <TextField 
                     error={nameIsEmpty}
                     helperText={nameIsEmpty ? "Mời nhập tên sản phẩm" : ""}
@@ -308,8 +326,9 @@ const ActionModal = (props) => {
                     fullWidth
                     variant="outlined" 
                     onChange={handleChangeName}
+                    sx={{mt:4}}
                 />
-                <FormControl fullWidth sx={{ mt:3 }}>
+                <FormControl fullWidth sx={{ mt:4 }}>
                     <InputLabel id="demo-simple-select-label">Loại sản phẩm</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -357,31 +376,17 @@ const ActionModal = (props) => {
                         })
                     }
                 </Grid>
-                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
-                    Kích thước sản phẩm
-                </Typography>
                 <TextField 
+                    sx={{mt:4, mb:2}}
                     error={sizeIsEmpty}
                     helperText={sizeIsEmpty ? "Mời nhập kích thước sản phẩm" : ""}
                     id="outlined-basic" 
                     label="Kích thước" 
                     variant="outlined" 
                     onChange={handleChangeSize}
+                    className="w-50"
                 />
-                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
-                    Mô tả sản phẩm
-                </Typography>
-                <TextareaAutosize
-                    aria-label="empty textarea"
-                    placeholder="Nhập mô tả"
-                    className="rounded p-2"
-                    minRows={3}
-                    style={{ width: '100%' }}
-                />
-                <div className='mt-3'>
-                    <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
-                        Nội dung bài viết
-                    </Typography>
+                <div className='mt-4'>
                     <CKEditor
                         config={defaultConfig}
                         editor={ Editor }

@@ -31,7 +31,7 @@ const createNewProduct = async (product) => {
     const result = await createProduct(product);
 
     if (!result) {
-        throw new Error("Tạo sản phẩm không thành công");
+        return responseMessage("fail",1,"Tạo sản phẩm không thành công");
     }
 
     return responseMessage("success",0,result);

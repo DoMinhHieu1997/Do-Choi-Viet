@@ -7,11 +7,11 @@ const login = async (username, password) => {
     const existedUser = await findByUsername(username);
 
     if (!existedUser) {
-        throw new Error("Tài khoản chưa tồn tại");
+        return responseMessage("fail","1","Tài khoản không đúng");
     }
 
     if (!verifyPassword(password, existedUser)) {
-        throw new Error("Mật khẩu không đúng");
+        return responseMessage("fail","1","Mật khẩu không đúng");
     }
 
     const token = jwt.sign(

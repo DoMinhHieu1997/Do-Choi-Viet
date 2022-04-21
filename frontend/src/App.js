@@ -9,9 +9,12 @@ import ActionModal from "./components/actionModal";
 import CreateButton from "./components/actionModal/CreateButton";
 import { useState } from "react";
 import Login from "./components/loginpage";
+import { getToken } from "./common";
+import NotFound from "./components/notfoundpage";
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
+  const token = getToken();
 
   return (
     <div className="App">
@@ -21,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
+        <Route path="*" element={<NotFound />} />
         {/* <Route path="/dang-nhap" element={<Login />} />
         <Route path="/dang-ky" element={<Register />} />
         <Route path="/ho-so" element={<Profile />}>
@@ -31,8 +35,13 @@ function App() {
         <Route path="/tim-kiem" element={<Search />} />
         <Route path="*" element={<NotFound />} /> */}
       </Routes>
-      <CreateButton setOpenModal={setOpenModal}/>
-      <ActionModal openModal={openModal} setOpenModal={setOpenModal}/>
+      {
+        token &&
+          <>
+            <CreateButton setOpenModal={setOpenModal}/>
+            <ActionModal openModal={openModal} setOpenModal={setOpenModal}/>
+          </>
+      }
       <AppFooter/>
     </div>
   );

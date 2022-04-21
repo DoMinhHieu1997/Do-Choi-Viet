@@ -40,8 +40,7 @@ const updatedProduct = async(productInfo) => {
                 classify: productInfo?.classify,
                 type: productInfo?.type,
                 images: productInfo?.images,
-                content: productInfo?.content,
-                description: productInfo?.description
+                content: productInfo?.content
             }
         }
     );
