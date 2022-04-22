@@ -114,10 +114,9 @@ const ActionModal = (props) => {
     const [prdInfoProperties, setPrdInfoProperties] = useState({
         name:'',
         size:'',
-        classify:0,
+        classify:'',
         type:0,
-        content:'',
-        images:[]
+        content:''
     });
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
     const [nameIsEmpty, setNameIsEmpty] = useState(false);
@@ -250,37 +249,37 @@ const ActionModal = (props) => {
     }
 
     const handleModalAction = () => {
-        const token = getToken(); 
+        const token = props.token; 
 
         if (!token) {
 
         } else {
-            // axiosInstance
-            // .post(`/products`,
-            //     {
-            //         name: prdInfoProperties.name,
-            //         size: prdInfoProperties.size,
-            //         content: prdInfoProperties.content,
-            //         classify: prdInfoProperties.classify,
-            //         type: prdInfoProperties.type,
-            //         images: imageUploadArray
-            //     },
-            //     {
-            //         headers: {
-            //             Authorization: "Bearer " + token
-            //         },
-            //     }
-            // )
-            // .then((res) => {
-            //     const result = res.data;
+            axiosInstance
+            .post(`/products`,
+                {
+                    name: prdInfoProperties.name,
+                    size: prdInfoProperties.size,
+                    content: prdInfoProperties.content,
+                    classify: prdInfoProperties.classify,
+                    type: prdInfoProperties.type,
+                    images: imageUploadArray
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    },
+                }
+            )
+            .then((res) => {
+                const result = res.data;
 
-            //     if (result.messageCode === 0) {
-            //         props.setOpenModal(false);
-            //         navigate(`/chi-tiet/${result.data.insertedId}`);
-            //     } else {
-
-            //     }
-            // });
+                if (result.messageCode === 0) {
+                    props.setOpenModal(false);
+                    navigate(`/chi-tiet/${result.data.insertedId}`);
+                } else {
+                    alert(result.data[0]);
+                }
+            });
         }
     }
 

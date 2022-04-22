@@ -24,21 +24,12 @@ function App() {
         <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
         <Route path="*" element={<NotFound />} />
-        {/* <Route path="/dang-nhap" element={<Login />} />
-        <Route path="/dang-ky" element={<Register />} />
-        <Route path="/ho-so" element={<Profile />}>
-            <Route path="/ho-so/thong-tin" element={<Profile />} />
-            <Route path="/ho-so/bai-viet-cua-toi" element={<MyProfile />} />
-            <Route path="/ho-so/bai-viet-da-luu" element={<SavedPost />} />
-        </Route>
-        <Route path="/tim-kiem" element={<Search />} />
-        <Route path="*" element={<NotFound />} /> */}
       </Routes>
       {
         token &&
           <>
             <CreateButton setOpenModal={setOpenModal}/>
-            <ActionModal openModal={openModal} setOpenModal={setOpenModal}/>
+            <ActionModal openModal={openModal} setOpenModal={setOpenModal} token={token}/>
           </>
       }
       <AppFooter/>

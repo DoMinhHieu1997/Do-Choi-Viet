@@ -30,20 +30,28 @@ const Detail = () => {
             <div className="col-md-5 px-0">
                 <div id="carouselExampleIndicators" className="carousel slide rounded overflow-hidden" data-bs-ride="carousel">
                     <div className="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        {
+                            productInfo !== null
+                                ?
+                                    productInfo.images.map((item,index) => {
+                                        return <button type="button" key={index+"slide-btn"} data-bs-target="#carouselExampleIndicators" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current="true" aria-label={`Slide ${index}` }></button>
+                                    })
+                                : 
+                                    null
+                        }
                     </div>
                     <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <div className="ratio ratio-4x3 bg-primary"></div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="ratio ratio-4x3 bg-secondary"></div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="ratio ratio-4x3 bg-warning"></div>
-                        </div>
+                        {
+                            productInfo !== null
+                                ?
+                                    productInfo.images.map((item,index) => {
+                                        return <div className={"carousel-item " + (index === 0 ? "active" : "" )} key={index}>
+                                            <div className="ratio ratio-4x3 bg-secondary classify-icon" style={{backgroundImage:`url(${item})`}}></div>
+                                        </div>
+                                    })
+                                : 
+                                    null
+                        }
                     </div>
                     <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -62,6 +70,9 @@ const Detail = () => {
                             <>
                                 <Typography variant="h5" fontWeight={"bold"}>{productInfo.name}</Typography>
                                 <div className='my-3' style={{ height:"3px", width:"4rem", backgroundColor:"#f79207" }}></div>
+                                <div className="d-flex fs-5">
+                                    <div className="me-2">Kích thước sản phẩm:</div><div>{productInfo.size}</div>
+                                </div>
                             </>
                         : 
                             <>
@@ -81,22 +92,30 @@ const Detail = () => {
             <div className="col-12 mt-4">
                 <Typography variant="h5" fontWeight={"bold"}>Mô tả sản phẩm</Typography>
                 <div className='my-3' style={{ height:"3px", width:"4rem", backgroundColor:"#f79207" }}></div>
-                <Skeleton height={35} width={'80%'}/>
-                <Skeleton height={35} width={'75%'}/>
-                <Skeleton height={35} width={'65%'}/>
-                <Skeleton height={35} width={'73%'}/>
-                <Skeleton height={35} width={'74%'}/>
-                <Skeleton height={35} width={'66%'}/>
-                <Skeleton height={35} width={'78%'}/>
-                <Skeleton height={35} width={'67%'}/>
-                <Skeleton height={35} width={'80%'}/>
-                <Skeleton height={35} width={'75%'}/>
-                <Skeleton height={35} width={'65%'}/>
-                <Skeleton height={35} width={'73%'}/>
-                <Skeleton height={35} width={'74%'}/>
-                <Skeleton height={35} width={'66%'}/>
-                <Skeleton height={35} width={'78%'}/>
-                <Skeleton height={35} width={'67%'}/>
+                {
+                    productInfo !== null
+                        ? 
+                            <div className="product-content" dangerouslySetInnerHTML={{__html: productInfo.content}}></div>
+                        :
+                            <>
+                                <Skeleton height={35} width={'80%'}/>
+                                <Skeleton height={35} width={'75%'}/>
+                                <Skeleton height={35} width={'65%'}/>
+                                <Skeleton height={35} width={'73%'}/>
+                                <Skeleton height={35} width={'74%'}/>
+                                <Skeleton height={35} width={'66%'}/>
+                                <Skeleton height={35} width={'78%'}/>
+                                <Skeleton height={35} width={'67%'}/>
+                                <Skeleton height={35} width={'80%'}/>
+                                <Skeleton height={35} width={'75%'}/>
+                                <Skeleton height={35} width={'65%'}/>
+                                <Skeleton height={35} width={'73%'}/>
+                                <Skeleton height={35} width={'74%'}/>
+                                <Skeleton height={35} width={'66%'}/>
+                                <Skeleton height={35} width={'78%'}/>
+                                <Skeleton height={35} width={'67%'}/>
+                            </>
+                }
             </div>
         </div>
     </Container>
