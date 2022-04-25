@@ -84,7 +84,34 @@ textarea {
 .ck-content {
   min-height: 10rem;
 }
+.product-content > :first-child{
+  display: none;
+}
+.carousel-indicators {
+  margin-bottom: .2rem !important;
+  position: unset !important;
+  display: inline-flex !important;
+  flex-direction: column;
+  vertical-align: top;
+  width: 20% !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.carousel-inner {
+  display: inline-block;
+  width: 80% !important;
+}
+.carousel-indicators > button {
+  width: unset !important;
+  height: unset !important;
+}
+.carousel-indicators [data-bs-target] {
+  border-top: 0 !important;
+}
 .btn-login {
   background-color: #f79207 !important;
+}
+.lh-1 {
+  line-height: 1;
 }
 
