@@ -5,6 +5,7 @@ import { Carousel } from "bootstrap";
 import { KeyboardArrowLeftIcon, KeyboardArrowRightIcon } from '@mui/icons-material';
 import axiosInstance from '../../axios';
 import { getProductClassification } from '../../common';
+import SuggestedProducts from '../detailpage/SuggestedProducts';
 
 const Detail = () => {
 
@@ -124,19 +125,7 @@ const Detail = () => {
                             </>
                 }
             </div>
-            <div className="d-flex mt-5 mb-3">
-                <div className="me-2" style={{width:"3px", backgroundColor:"#f79207"}}></div>
-                <Typography variant="h4" fontWeight={"bold"}>Sản phẩm khác</Typography>
-            </div>
-            <div className="row">
-                {
-                    Array(4).fill(0).map((item,index) => {
-                        return <div key={index+'-another'} className="col-md-3 col-12">
-                            <div className="ratio ratio-4x3 bg-secondary rounded border"></div>
-                        </div>
-                    })
-                }
-            </div>
+            <SuggestedProducts/>
         </div>
     </Container>
 }

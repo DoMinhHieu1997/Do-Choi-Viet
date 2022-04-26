@@ -28,6 +28,16 @@ router.get("/detail/:id", async (req, res) => {
     }
 });
 
+//get random products
+router.get("/suggestions", async(req, res) => {
+    try {
+        const randomProducts = await ProductCtrl.getRandomProducts();
+        res.json(randomProducts);
+    } catch (err) {
+        res.json(responseMessage("error",1,''));
+    }
+});
+
 //create
 router.post("/", authMdw, async (req, res) => {
     try {

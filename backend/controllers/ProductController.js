@@ -3,7 +3,8 @@ const {
     findListProduct, 
     createProduct, 
     updatedProduct, 
-    deletedProduct 
+    deletedProduct,
+    findRandomProducts 
 } = require("../database/product");
 const responseMessage = require("../message");
 
@@ -26,6 +27,16 @@ const getListClassifiedProduct = async (classify) => {
 
     return responseMessage("success",0,result);
 }; 
+
+const getRandomProducts = async () => {
+    const result = await findRandomProducts();
+
+    if (!result) {
+        return responseMessage("fail",1,"Không lấy được danh sách sản phẩm");
+    }
+
+    return responseMessage("success",0,result);
+}
 
 const createNewProduct = async (product) => {
     const result = await createProduct(product);
@@ -57,4 +68,4 @@ const deleteProduct = async (productId) => {
     return responseMessage("success",0,result);
 };
 
-module.exports = { getProductById, getListClassifiedProduct, createNewProduct, updateProduct, deleteProduct };
+module.exports = { getProductById, getListClassifiedProduct, createNewProduct, updateProduct, deleteProduct, getRandomProducts };

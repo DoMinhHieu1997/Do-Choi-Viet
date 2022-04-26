@@ -1,9 +1,9 @@
-import { Card, Grid, Chip, Typography, Tooltip } from "@mui/material";
+import { Grid, Chip, Typography, Tooltip } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 const ProductCard = ({infor}) => {
     return <Grid item xs={6} md={3}>
-        <Card className="shadow-hover" sx={{ p:2 }}>
+        <div className="shadow-hover h-100 p-2" sx={{ p:2 }}>
             <div className="ratio ratio-1x1 rounded border">
                 <div className="top-0 end-0 mt-2 text-end d-inline-block">
                     {
@@ -24,7 +24,7 @@ const ProductCard = ({infor}) => {
             </div>
             <div className='my-3' style={{ height:"2px", width:"4rem", backgroundColor:"#f79207" }}></div>
             <Typography variant="h6" mt={1} sx={{fontWeight:"600"}}>{infor.name}</Typography>
-        </Card>
+        </div>
     </Grid>
 }
 

@@ -19,6 +19,18 @@ const findListProduct = async (classify) => {
     return listProduct;
 };
 
+const findRandomProducts = async () => {
+    const result = await db.products
+        .aggregate(
+            [
+                {
+                    $sample: {size:4}
+                }
+            ]
+        ).toArray();
+    return result;
+}
+
 const createProduct = async (product) => {
     const insertedProduct = await db.products
         .insertOne(product);
@@ -56,5 +68,5 @@ const deletedProduct = async(productId) => {
     };
 };
 
-module.exports = { findProductById, findListProduct, createProduct, updatedProduct, deletedProduct };
+module.exports = { findProductById, findListProduct, createProduct, updatedProduct, deletedProduct, findRandomProducts };
 
