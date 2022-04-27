@@ -4,7 +4,7 @@ import {
     Typography
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import Logo from '../images/logo.png';
+import Logo from '../images/Logo.png';
 
 const AppFooter = () => {
     const pages = [
@@ -21,8 +21,7 @@ const AppFooter = () => {
         <Container>
             <Grid container sx={{py:5, alignItems:"center"}}>
                 <Grid item sx={{ flexGrow:1, display:'flex', alignItems:'end' }}>
-                    <img width='60rem' src={Logo}/>
-                    <Typography variant='h3' ml={1} sx={{ fontWeight:'600', lineHeight:.8, color:'#606060' }}>dochoiviet</Typography>
+                    <img width='250rem' src={Logo}/>
                 </Grid>
                 <Grid>
                     <Grid container sx={{fontWeight:"600"}}>

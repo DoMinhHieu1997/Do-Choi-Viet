@@ -26,7 +26,7 @@ export const getProductClassification = (alias) => {
         },
         {
             alias:"ngoai-troi",
-            title:"ngoài trời"
+            title:"đồ chơi ngoài trời"
         },
         {
             alias:"khac",

@@ -35,11 +35,13 @@ const Detail = () => {
                         {
                             productInfo !== null
                                 ?
-                                    productInfo.images.map((item,index) => {
-                                        return <button type="button" key={index+"slide-btn"} data-bs-target="#carouselExampleIndicators" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current="true" aria-label={`Slide ${index}` }>
-                                            <div className="ratio ratio-4x3 bg-light classify-icon overflow-hidden rounded border" style={{backgroundImage:`url(${item})`}}></div>
-                                        </button>
-                                    })
+                                    productInfo?.images
+                                        && 
+                                        productInfo.images.map((item,index) => {
+                                            return <button type="button" key={index+"slide-btn"} data-bs-target="#carouselExampleIndicators" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current="true" aria-label={`Slide ${index}` }>
+                                                <div className="ratio ratio-4x3 bg-light classify-icon overflow-hidden rounded border" style={{backgroundImage:`url(${item})`}}></div>
+                                            </button>
+                                        })
                                 : 
                                     null
                         }
@@ -50,7 +52,7 @@ const Detail = () => {
                                 ?
                                     productInfo.images.map((item,index) => {
                                         return <div className={"carousel-item " + (index === 0 ? "active" : "" )} key={index}>
-                                            <div className="ratio ratio-4x3 bg-secondary classify-icon rounded" style={{backgroundImage:`url(${item})`}}></div>
+                                            <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
                                         </div>
                                     })
                                 : 
@@ -125,7 +127,10 @@ const Detail = () => {
                             </>
                 }
             </div>
-            <SuggestedProducts/>
+            {
+                productInfo !== null
+                    && <SuggestedProducts productId={productInfo._id}/>
+            }
         </div>
     </Container>
 }

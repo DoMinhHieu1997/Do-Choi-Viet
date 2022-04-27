@@ -19,10 +19,17 @@ const findListProduct = async (classify) => {
     return listProduct;
 };
 
-const findRandomProducts = async () => {
+const findRandomProducts = async (productId) => {
     const result = await db.products
         .aggregate(
             [
+                {
+                    $match: {
+                        '_id': {
+                          $ne: ObjectId(productId)
+                        } 
+                    }
+                },
                 {
                     $sample: {size:4}
                 }

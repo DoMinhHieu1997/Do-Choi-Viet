@@ -1,20 +1,31 @@
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardMedia,
   CardContent,
   Typography,
-  Grid
+  Grid,
+  Skeleton
 } from '@mui/material';
 
 const TopSell = () => {
+
+  const [topSell, setTopSell] = useState([]);
+
+  useEffect(() => {
+
+  }, []);
+
   return <>
-    <Typography variant="h5" textAlign="center" mb={2} mt={5} fontWeight="bold">Sản phẩm bán chạy</Typography>
-    <div className='mx-auto mb-5' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
+    <Typography variant="h4" textAlign="center" mb={2} mt={5} fontWeight="bold">Sản phẩm bán chạy</Typography>
+    <div className='mx-auto mb-4' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
     <Grid container spacing={3}>
       {
-        Array(8).fill(0).map((item,index) => {
-          return <TopSellItem key={index}/>
-        })
+        topSell.length === 0 
+          && 
+            Array(8).fill(0).map((item, index) => {
+              return <ItemSkeleton key={index+'skeleton'}/>
+            })
       }
     </Grid>
   </>
@@ -41,7 +52,16 @@ const TopSellItem = () => {
       </CardContent>
     </Card>
   </Grid>
-  
+}
+
+const ItemSkeleton = () => {
+  return <Grid item xs={6} md={3} mb={2}>
+        <Skeleton className="rounded" sx={{ height: "12rem" }} animation="wave" variant="rectangular" />
+        <Skeleton sx={{ mt:2 }}/>
+        <Skeleton/>
+        <Skeleton/>
+        <Skeleton/>
+  </Grid>
 }
 
 export default TopSell;

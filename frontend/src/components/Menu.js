@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as React from 'react';
 import {
   AppBar,
@@ -17,7 +17,8 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
-import Logo from '../images/logo.png';
+import Logo from '../images/Logo.png';
+import { getToken } from '../common';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -47,7 +48,19 @@ const AppMenu = (props) => {
     {text:'Ngoài trời',link:'/san-pham/ngoai-troi'},
     {text:'Khác',link:'/san-pham/khac'}
   ];
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+  const [logged, setLogged] = useState(false);
+  const notLogged = ['Login'];
+  const isLogged = ['Logout'];
+
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setLogged(true);
+    } else {
+      setLogged(false);
+    }
+  },[]);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -64,6 +77,7 @@ const AppMenu = (props) => {
   };
 
   const handleCloseUserMenu = () => {
+    localStorage.removeItem('token');
     setAnchorElUser(null);
   };
 
@@ -73,15 +87,7 @@ const AppMenu = (props) => {
         <Toolbar disableGutters>
           
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr:5, alignItems:'center' }}>
-            <img width='40rem' src={Logo}/>
-            <Typography
-              variant='h4'
-              noWrap
-              component='div'
-              sx={{ fontWeight:'600', ml:1, lineHeight:.8, color:'#606060' }}
-            >
-              dochoiviet
-            </Typography>
+            <img width='150rem' src={Logo}/>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -122,15 +128,7 @@ const AppMenu = (props) => {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems:'center', fontWeight:'600' }}>
-            <img width="35rem" src={Logo}/>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ fontWeight:'600', ml:1, lineHeight:.8, color:'#606060' }}
-            >
-              DOCHOIVIET
-            </Typography>
+            <img width="100rem" src={Logo}/>
           </Box>
           
 
@@ -181,11 +179,20 @@ const AppMenu = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting,index) => (
-                <MenuItem key={index} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {
+                logged
+                  ? 
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Đăng xuất</Typography>
+                    </MenuItem>
+                  :
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <NavLink className="c-606060"
+                          to={`/login`}
+                          onClick={() => window.scroll(0, 0)}
+                      >Đăng nhập</NavLink>
+                    </MenuItem>
+              }
             </Menu>
           </Box>
         </Toolbar>

@@ -3,13 +3,17 @@ import axiosInstance from '../../axios';
 import { Skeleton, Card, Grid, Container, Button, Typography, Chip } from "@mui/material";
 import ProductCard from '../productpage/ProductItem';
 
-const SuggestedProduct = () => {
+const SuggestedProduct = (props) => {
 
     const [list, setList] = useState([]);
 
     useEffect(() => {
         axiosInstance
-        .get(`/products/suggestions`)
+        .get(`/products/suggestions`,
+            {
+                productId: props.productId
+            }
+        )
         .then((res) => {
             const result = res.data;
 

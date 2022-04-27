@@ -28,8 +28,8 @@ const getListClassifiedProduct = async (classify) => {
     return responseMessage("success",0,result);
 }; 
 
-const getRandomProducts = async () => {
-    const result = await findRandomProducts();
+const getRandomProducts = async (productId) => {
+    const result = await findRandomProducts(productId);
 
     if (!result) {
         return responseMessage("fail",1,"Không lấy được danh sách sản phẩm");
