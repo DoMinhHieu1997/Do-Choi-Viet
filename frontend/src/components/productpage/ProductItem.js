@@ -10,6 +10,7 @@ const ProductCard = ({infor}) => {
                 onClick={() => window.scroll(0, 0)}
             >
                 <div className="ratio ratio-1x1 rounded border">
+                    <div className="classify-icon bg-01c" style={{ backgroundImage: `url(${infor.images[0]})`}}></div>
                     <div className="top-0 end-0 mt-2 text-end d-inline-block">
                         {
                             infor.type === 1

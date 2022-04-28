@@ -21,7 +21,7 @@ const SuggestedProduct = (props) => {
                 setList(result.data);
             }
         });
-    }, []);
+    }, [props.productId]);
 
     return <div>
         <div className="d-flex mt-5 mb-3">

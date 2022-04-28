@@ -26,6 +26,12 @@ textarea {
 .c-606060 {
   color: #606060 !important;
 }
+.bg-01c {
+  background-color: #0000001c;
+}
+.b-01c {
+  border: 1px solid #0000001c !important;
+}
 .cursor-pointer {
   cursor: pointer;
 }

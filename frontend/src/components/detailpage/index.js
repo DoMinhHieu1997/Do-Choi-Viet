@@ -27,6 +27,7 @@ const Detail = () => {
         });
     }, [id]);
 
+
     return <Container sx={{ mt:15, mb:10 }}>
         <div className="row">
             <div className="col-md-6 px-0">
@@ -39,7 +40,7 @@ const Detail = () => {
                                         && 
                                         productInfo.images.map((item,index) => {
                                             return <button type="button" key={index+"slide-btn"} data-bs-target="#carouselExampleIndicators" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current="true" aria-label={`Slide ${index}` }>
-                                                <div className="ratio ratio-4x3 bg-light classify-icon overflow-hidden rounded border" style={{backgroundImage:`url(${item})`}}></div>
+                                                <div className="ratio ratio-4x3 bg-01c classify-icon overflow-hidden rounded border" style={{backgroundImage:`url(${item})`}}></div>
                                             </button>
                                         })
                                 : 
@@ -128,8 +129,7 @@ const Detail = () => {
                 }
             </div>
             {
-                productInfo !== null
-                    && <SuggestedProducts productId={productInfo._id}/>
+                id && <SuggestedProducts productId={id}/>
             }
         </div>
     </Container>

@@ -122,6 +122,8 @@ const ActionModal = (props) => {
     const [nameIsEmpty, setNameIsEmpty] = useState(false);
     const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
     const [imageUploadArray] = useState([]);
+    const [displayType, setDisplayType] = useState(false);
+    const [noticeUploadimages, setNoticeUploadimages] = useState(true);
 
     const handleClose = () => {
         props.setOpenModal(false);
@@ -229,6 +231,11 @@ const ActionModal = (props) => {
 
     const handleClassifyChange = (event) => {
         const value = event.target.value;
+        if (value === "co-vua" || value === "ca-ngua" || value === "co-tuong") {
+            setDisplayType(false);
+        } else {
+            setDisplayType(true);
+        }
         setPrdInfoProperties({
             ...prdInfoProperties,
             classify: value
@@ -248,38 +255,49 @@ const ActionModal = (props) => {
         }
     }
 
+    const handleTypeChange = (event) => {
+        const type = event.target.value;
+        setPrdInfoProperties({
+            ...prdInfoProperties,
+            type: type
+        })
+    }
+
     const handleModalAction = () => {
         const token = props.token; 
 
-        if (!token) {
-
-        } else {
-            axiosInstance
-            .post(`/products`,
-                {
-                    name: prdInfoProperties.name,
-                    size: prdInfoProperties.size,
-                    content: prdInfoProperties.content,
-                    classify: prdInfoProperties.classify,
-                    type: prdInfoProperties.type,
-                    images: imageUploadArray
-                },
-                {
-                    headers: {
-                        Authorization: "Bearer " + token
+        if (token) {
+            if (imageUploadArray.lenght === 0) {
+                
+            } else {
+                axiosInstance
+                .post(`/products`,
+                    {
+                        name: prdInfoProperties.name,
+                        size: prdInfoProperties.size,
+                        content: prdInfoProperties.content,
+                        classify: prdInfoProperties.classify,
+                        type: prdInfoProperties.type,
+                        images: imageUploadArray
                     },
-                }
-            )
-            .then((res) => {
-                const result = res.data;
+                    {
+                        headers: {
+                            Authorization: "Bearer " + token
+                        },
+                    }
+                )
+                .then((res) => {
+                    const result = res.data;
 
-                if (result.messageCode === 0) {
-                    props.setOpenModal(false);
-                    navigate(`/chi-tiet/${result.data.insertedId}`);
-                } else {
-                    alert(result.data[0]);
-                }
-            });
+                    if (result.messageCode === 0) {
+                        props.setOpenModal(false);
+                        navigate(`/chi-tiet/${result.data.insertedId}`);
+                    } else {
+                        alert(result.data[0]);
+                    }
+                });
+            }
+            
         }
     }
 
@@ -333,9 +351,15 @@ const ActionModal = (props) => {
                         <MenuItem value={"khac"}>Khác</MenuItem>
                     </Select>
                 </FormControl>
-                <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
-                    Tải ảnh sản phẩm lên
-                </Typography>
+                <div className='flex'>
+                    <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3 }}>
+                        Tải ảnh sản phẩm lên
+                    </Typography>
+                    <Typography hidden={noticeUploadimages} id="modal-modal-title" variant="h6" className="fw-bold text-danger" sx={{ mb:1 }}>
+                        (Mời chọn ảnh cho sản phẩm)
+                    </Typography>
+                </div>
+                
                 <label htmlFor="contained-button-file">
                     <Input accept="image/*" id="contained-button-file" type="file" multiple onChange={handleImageUpload}/>
                     <Button variant="contained" component="span" className="py-1" sx={{ py:0, px:1 }}>
@@ -363,6 +387,21 @@ const ActionModal = (props) => {
                         })
                     }
                 </Grid>
+                <div>
+                    <FormControl className='w-50' hidden={displayType} sx={{ mt:4 }}>
+                        <InputLabel id="demo-simple-select-label">Kiểu sản phẩm</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={prdInfoProperties.type}
+                            label="kiểu sản phẩm"
+                            onChange={handleTypeChange}
+                        >
+                            <MenuItem value={1}>Có nam châm</MenuItem>
+                            <MenuItem value={2}>Không nam châm</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
                 <TextField 
                     sx={{mt:4, mb:2}}
                     error={sizeIsEmpty}

@@ -82,7 +82,7 @@ const AppMenu = (props) => {
   };
 
   return <ElevationScroll {...props}>
-    <AppBar sx={{ backgroundColor:'white', borderBottom:'1px solid #ddd' }}>
+    <AppBar sx={{ backgroundColor:'white', borderBottom:'1px solid #dee2e6' }}>
       <Container>
         <Toolbar disableGutters>
           
@@ -133,14 +133,14 @@ const AppMenu = (props) => {
           
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <input 
+            {/* <input 
               placeholder="Tìm sản phẩm..." 
               className="rounded py-1 px-3" 
               style={{
                 backgroundColor:"#f1effc",
-                border:"none"
+                border: "1px solid #0000001c !important"
               }}
-            />
+            /> */}
           </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr:2 }}>
