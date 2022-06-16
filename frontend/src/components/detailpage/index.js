@@ -76,8 +76,12 @@ const Detail = () => {
                         ?
                             <>
                                 <Typography variant="h4" fontWeight={"bold"}>{productInfo.name}</Typography>
-                                {/* <div className='mt-3 mb-4' style={{ height:"3px", width:"4rem", backgroundColor:"#f79207" }}></div> */}
-                                <Chip sx={{backgroundColor:'rgb(247, 146, 7)', color:'white'}} className="fw-bold fs-5 p-2 mt-4" label={productInfo.type === 1 ? 'có nam châm' : 'không nam châm'}/>
+                                {
+                                    productInfo.classify !== 'xep-hinh'
+                                        && 
+                                            <Chip sx={{backgroundColor:'rgb(247, 146, 7)', color:'white'}} className="fw-bold fs-5 p-2 mt-4" label={productInfo.type === 1 ? 'có nam châm' : 'không nam châm'}/>
+
+                                }
                                 <div className="fs-4 mt-4">
                                     <span>Phân loại:</span> <span className="fw-bold">{getProductClassification(productInfo.classify)}</span>
                                 </div>

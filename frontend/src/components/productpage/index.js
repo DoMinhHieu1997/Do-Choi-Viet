@@ -97,9 +97,14 @@ const ProductPage = () => {
                 })
             }
         </Grid>
-        <div className="text-center mt-5">
-            <Button variant="outlined" sx={{ fontWeight:"600" }}>Xem thêm sản phẩm</Button>
-        </div>
+        {
+            listProduct && listProduct.length === 12
+                &&
+                    <div className="text-center mt-5">
+                        <Button variant="outlined" sx={{ fontWeight:"600" }}>Xem thêm sản phẩm</Button>
+                    </div>
+        }
+        
     </Container>
 }
 

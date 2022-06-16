@@ -287,6 +287,7 @@ const ActionModal = (props) => {
                     }
                 )
                 .then((res) => {
+                    console.log(res);
                     const result = res.data;
 
                     if (result.messageCode === 0) {
@@ -296,8 +297,9 @@ const ActionModal = (props) => {
                         alert(result.data[0]);
                     }
                 });
-            }
-            
+            } 
+        } else {
+            console.log('chưa đăng nhập');
         }
     }
 
@@ -334,7 +336,7 @@ const ActionModal = (props) => {
                     sx={{mt:4}}
                 />
                 <FormControl fullWidth sx={{ mt:4 }}>
-                    <InputLabel id="demo-simple-select-label">Loại sản phẩm</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Danh mục sản phẩm</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
