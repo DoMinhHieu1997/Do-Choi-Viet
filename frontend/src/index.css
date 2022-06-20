@@ -125,3 +125,35 @@ textarea {
   cursor: pointer;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(218, 218, 218); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(158, 158, 158); 
+}
+
+.z-999 {
+  z-index: 999;
+}
+
+.css-14f5fsl-MuiButtonBase-root-MuiButton-root:hover {
+  color: rgb(23, 76, 156) !important;
+  background-color: transparent !important;
+}
+
+.css-14f5fsl-MuiButtonBase-root-MuiButton-root {
+  font-size: 1rem !important;
+}

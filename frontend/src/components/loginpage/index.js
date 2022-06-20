@@ -13,7 +13,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from "../../axios";
 
-const Login = () => {
+const Login = ({setToken}) => {
     const navigate = useNavigate();
     const [usernameIsEmpty, setUsernameIsEmpty] = useState(false);
     const [passwordIsEmpty, setPasswordIsEmpty] = useState(false);
@@ -53,6 +53,7 @@ const Login = () => {
             .then((res) => {
                 const result = res.data;
                 if (result.messageCode === 0) {
+                    setToken(true);
                     localStorage.setItem('token', result.data.token);
                     navigate('/');
                 } else {

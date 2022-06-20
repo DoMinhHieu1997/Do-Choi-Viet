@@ -6,6 +6,7 @@ import { KeyboardArrowLeftIcon, KeyboardArrowRightIcon } from '@mui/icons-materi
 import axiosInstance from '../../axios';
 import { getProductClassification } from '../../common';
 import SuggestedProducts from '../detailpage/SuggestedProducts';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Detail = () => {
 
@@ -87,6 +88,13 @@ const Detail = () => {
                                 </div>
                                 <div className="fs-4 mt-3">
                                     <span>Kích thước:</span> <span className="fw-bold">{productInfo.size}</span>
+                                </div>
+                                <div 
+                                    className="mt-4 d-inline-flex align-items-center px-3 py-1 rounded cursor-pointer"
+                                    style={{border:'2px solid #606060'}}
+                                >
+                                    <div className="me-1 fw-bold">Chỉnh sửa</div>
+                                    <EditIcon fontSize='small' onClick={() => {}}/>
                                 </div>
                             </>
                         : 

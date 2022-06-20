@@ -50,17 +50,17 @@ const AppMenu = (props) => {
   ];
 
   const [logged, setLogged] = useState(false);
-  const notLogged = ['Login'];
-  const isLogged = ['Logout'];
 
   useEffect(() => {
+    console.log('run');
     const token = getToken();
+    console.log(props);
     if (token) {
       setLogged(true);
     } else {
       setLogged(false);
     }
-  },[]);
+  },[props.token]);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -77,11 +77,10 @@ const AppMenu = (props) => {
   };
 
   const handleCloseUserMenu = () => {
-    localStorage.removeItem('token');
     setAnchorElUser(null);
   };
 
-  return <ElevationScroll {...props}>
+  return <ElevationScroll>
     <AppBar sx={{ backgroundColor:'white', borderBottom:'1px solid #dee2e6' }}>
       <Container>
         <Toolbar disableGutters>
@@ -121,7 +120,7 @@ const AppMenu = (props) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.text + '-specified-1'} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" className='className="c-606060"'>{page.text}</Typography>
+                  <Typography textAlign="center" className='c-606060'>{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -183,7 +182,14 @@ const AppMenu = (props) => {
                 logged
                   ? 
                     <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Đăng xuất</Typography>
+                      <NavLink className="c-606060"
+                          to={`/login`}
+                          onClick={() => {
+                            setLogged(false);
+                            window.scroll(0, 0);
+                            localStorage.removeItem('token');
+                          }}
+                      >Đăng Xuất</NavLink>
                     </MenuItem>
                   :
                     <MenuItem onClick={handleCloseUserMenu}>

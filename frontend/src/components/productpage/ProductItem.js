@@ -6,7 +6,7 @@ const ProductCard = ({infor}) => {
         <div className="shadow-hover h-100 p-2" sx={{ p:2 }}>
             <NavLink
                 to={`/chi-tiet/${infor._id}/`}
-                className="rounded oveflow-hidden"
+                className="rounded oveflow-hidden position-relative"
                 onClick={() => window.scroll(0, 0)}
             >
                 <div className="ratio ratio-1x1 rounded border">

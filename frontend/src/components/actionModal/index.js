@@ -30,8 +30,6 @@ import {
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import axiosInstance from '../../axios';
-import { getToken } from '../../common';
-import { async } from '@firebase/util';
 
 const ActionModal = (props) => {
 

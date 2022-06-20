@@ -10,17 +10,18 @@ import CreateButton from "./components/actionModal/CreateButton";
 import { useState, useEffect } from "react";
 import Login from "./components/loginpage";
 import NotFound from "./components/notfoundpage";
+import { getToken } from "./common";
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(false);
 
   return (
     <div className="App">
-      <AppMenu/>
+      <AppMenu setToken={setToken} token={token}/>
       <Routes>
-        <Route path="/" element={<HomePage setToken={setToken}/>} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/login" element={<Login setToken={setToken}/>} />
         <Route path="/san-pham/:type" element={<ProductPage />} />
         <Route path="/chi-tiet/:id" element={<Detail />} />
         <Route path="*" element={<NotFound />} />

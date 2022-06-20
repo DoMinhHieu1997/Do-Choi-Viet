@@ -1,5 +1,3 @@
-import { AlignHorizontalLeftSharp } from "@mui/icons-material";
-
 export const getToken = () => {
     return localStorage.getItem('token');
 }
