@@ -157,3 +157,13 @@ textarea {
 .css-14f5fsl-MuiButtonBase-root-MuiButton-root {
   font-size: 1rem !important;
 }
+
+.css-3an3bv-MuiGrid-root>a:hover {
+  color: rgb(23, 76, 156) !important;
+  background-color: transparent !important;
+}
+
+.css-3an3bv-MuiGrid-root>a {
+  font-size: 1rem !important;
+}
+

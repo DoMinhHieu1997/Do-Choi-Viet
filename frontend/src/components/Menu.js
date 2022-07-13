@@ -52,9 +52,7 @@ const AppMenu = (props) => {
   const [logged, setLogged] = useState(false);
 
   useEffect(() => {
-    console.log('run');
     const token = getToken();
-    console.log(props);
     if (token) {
       setLogged(true);
     } else {

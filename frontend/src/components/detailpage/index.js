@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Skeleton, Card, Grid, Container, Button, Typography, Chip } from "@mui/material";
-import { Carousel } from "bootstrap";
-import { KeyboardArrowLeftIcon, KeyboardArrowRightIcon } from '@mui/icons-material';
+import { Skeleton, Container, Button, Typography, Chip } from "@mui/material";
 import axiosInstance from '../../axios';
 import { getProductClassification } from '../../common';
 import SuggestedProducts from '../detailpage/SuggestedProducts';
 import EditIcon from '@mui/icons-material/Edit';
+import { getToken } from "../../common";
 
-const Detail = () => {
+const Detail = (props) => {
 
     const {id} = useParams();
     let navigate = useNavigate();
     const [productInfo, setProductInfo] = useState(null);
+    const [allowEdit, setAllowEdit] = useState(false);
 
     useEffect(() => {
+        const token = getToken();
+        if (token) {
+            setAllowEdit(true);
+        }
+
         axiosInstance
         .get(`/products/detail/${id}`)
         .then((res) => {
@@ -22,6 +27,7 @@ const Detail = () => {
 
             if (result.messageCode === 0) {
                 setProductInfo(result.data[0]);
+                props.setProductInfo(result.data[0]);
             } else {
                 navigate('/');
             }
@@ -89,12 +95,20 @@ const Detail = () => {
                                 <div className="fs-4 mt-3">
                                     <span>Kích thước:</span> <span className="fw-bold">{productInfo.size}</span>
                                 </div>
-                                <div 
-                                    className="mt-4 d-inline-flex align-items-center px-3 py-1 rounded cursor-pointer"
-                                    style={{border:'2px solid #606060'}}
-                                >
-                                    <div className="me-1 fw-bold">Chỉnh sửa</div>
-                                    <EditIcon fontSize='small' onClick={() => {}}/>
+                                <div hidden={!allowEdit}>
+                                    <div 
+                                        className="mt-4 d-inline-flex align-items-center px-3 py-1 rounded cursor-pointer"
+                                        style={{border:'2px solid #606060'}}
+                                        onClick={
+                                            () => {
+                                                props.setOpenModal(true);
+                                                props.setIsCreateProduct(false);
+                                            }
+                                        }
+                                    >
+                                        <div className="me-1 fw-bold">Chỉnh sửa</div>
+                                        <EditIcon fontSize='small'/>
+                                    </div>
                                 </div>
                             </>
                         : 

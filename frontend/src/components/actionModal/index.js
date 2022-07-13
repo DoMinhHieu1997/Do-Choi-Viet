@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import "./ckeditor5.css";
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import { storage } from "../../firebase";
 import PropTypes from 'prop-types';
@@ -20,7 +20,6 @@ import {
     InputLabel, 
     MenuItem, 
     TextField,
-    TextareaAutosize,
     Button,
     Grid,
     Snackbar,
@@ -32,7 +31,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import axiosInstance from '../../axios';
 
 const ActionModal = (props) => {
-
     const navigate = useNavigate(); 
 
     const defaultConfig = {
@@ -122,6 +120,12 @@ const ActionModal = (props) => {
     const [imageUploadArray] = useState([]);
     const [displayType, setDisplayType] = useState(false);
     const [noticeUploadimages, setNoticeUploadimages] = useState(true);
+
+    useEffect(() => {
+        if (props.productInfo) {
+            console.log(props.productInfo);
+        }
+    },[props.productInfo]);
 
     const handleClose = () => {
         props.setOpenModal(false);
@@ -317,7 +321,7 @@ const ActionModal = (props) => {
                 <div className="d-flex">
                     <div className="me-2" style={{width:"4px", backgroundColor:"#f79207"}}></div>
                     <Typography id="modal-modal-title" variant="h5" className="fw-bold">
-                        Tạo bài viết giới thiệu sản phẩm
+                        {props.isCreateProduct ? "Tạo bài viết giới thiệu sản phẩm" : "Chỉnh sửa sản phẩm"}
                     </Typography>
                 </div>
                 {/* <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
