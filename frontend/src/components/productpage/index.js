@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Skeleton, Card, Grid, Container, Button, Typography } from "@mui/material";
+import { Grid, Container, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductItem";
-import axiosInstance from '../../axios';
+import axiosInstance from "../../axios";
+import { ProductItemSkeleton } from "../skeleton/index";
 
 const ProductPage = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [listProduct, setListProduct] = useState(null);
-    const [page, setPage] = useState(1);
     const [title, setTitle] = useState('');
-    const param =  useParams();
+    const param = useParams();
 
     const getProductTitle = (str) => {
         let checktitle = '';
@@ -56,6 +56,7 @@ const ProductPage = () => {
     }
 
     const getProductList = (classify) => {
+        setIsLoading(true);
         axiosInstance
         .get(`/products/category/${classify}`)
         .then((res) => {
@@ -86,7 +87,7 @@ const ProductPage = () => {
         <div className='mx-auto mb-4' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
         <Grid container spacing={2}>
             {
-                listProduct !== null
+                listProduct !== null && !isLoading
                     && listProduct.map((item, index) => {
                         return <ProductCard key={index+'pc'} infor={item}/>
                     })
@@ -106,18 +107,6 @@ const ProductPage = () => {
         }
         
     </Container>
-}
-
-const ProductItemSkeleton = () => {
-    return <Grid item xs={6} md={3}>
-        <Card sx={{ p:2 }}>
-            <Skeleton className="rounded mb-2" variant="rectangular" height={200} />
-            <Skeleton/>
-            <Skeleton/>
-            <Skeleton/>
-            <Skeleton/>
-        </Card>
-    </Grid>
 }
 
 export default ProductPage;

@@ -104,6 +104,7 @@ const ActionModal = (props) => {
     };
 
     const [imageListPrev, setImageListPrev] = useState([]);
+    const [imageForUpdate, setImageForUpdate] = useState([]);
     const [progress, setProgress] = useState(0);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [displayProgessBar, setDisplayProgressBar] = useState(false);
@@ -123,7 +124,23 @@ const ActionModal = (props) => {
 
     useEffect(() => {
         if (props.productInfo) {
-            console.log(props.productInfo);
+            let prd = props.productInfo;
+            setPrdInfoProperties({
+                name: prd.name,
+                size: prd.size,
+                classify: prd.classify,
+                type: prd.type,
+                content: prd.content
+            });
+            setImageForUpdate(prd.images);
+        } else {
+            setPrdInfoProperties({
+                name:'',
+                size:'',
+                classify:'',
+                type:0,
+                content:''
+            });
         }
     },[props.productInfo]);
 
@@ -191,10 +208,16 @@ const ActionModal = (props) => {
 
     const handleRemoveImage = (imageLink) => {
         const list = [...imageListPrev];
+        const list_update = [...imageForUpdate];
         const index = list.indexOf(imageLink);
+        const index_update = list_update.indexOf(imageLink);
         if (index > -1) {
             list.splice(index,1);
             setImageListPrev(list);
+        }
+        if (index_update > -1) {
+            list_update.splice(index,1);
+            setImageForUpdate(list_update);
         }
     }
 
@@ -246,12 +269,13 @@ const ActionModal = (props) => {
 
     const handleChangeSize = (event) => {
         const value = event.target.value;
+
+        setPrdInfoProperties({
+            ...prdInfoProperties,
+            size: value
+        });
         if (value !== '') {
             setSizeIsEmpty(false);
-            setPrdInfoProperties({
-                ...prdInfoProperties,
-                size: value
-            })
         } else {
             setSizeIsEmpty(true);
         }
@@ -289,7 +313,7 @@ const ActionModal = (props) => {
                     }
                 )
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     const result = res.data;
 
                     if (result.messageCode === 0) {
@@ -303,6 +327,10 @@ const ActionModal = (props) => {
         } else {
             console.log('chưa đăng nhập');
         }
+    }
+
+    const handleModalActionEditProduct = () => {
+        console.log("sửa đê");
     }
 
     return <>
@@ -335,6 +363,7 @@ const ActionModal = (props) => {
                     fullWidth
                     variant="outlined" 
                     onChange={handleChangeName}
+                    value={prdInfoProperties.name}
                     sx={{mt:4}}
                 />
                 <FormControl fullWidth sx={{ mt:4 }}>
@@ -356,7 +385,7 @@ const ActionModal = (props) => {
                     </Select>
                 </FormControl>
                 <div className='flex'>
-                    <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3 }}>
+                    <Typography id="modal-modal-title" variant="h6" className="fw-bold mb-1" sx={{ mt:3 }}>
                         Tải ảnh sản phẩm lên
                     </Typography>
                     <Typography hidden={noticeUploadimages} id="modal-modal-title" variant="h6" className="fw-bold text-danger" sx={{ mb:1 }}>
@@ -379,16 +408,30 @@ const ActionModal = (props) => {
                 }
                 <Grid container sx={{ mt:3 }}>
                     {
-                        imageListPrev.length > 0 && imageListPrev.map((item,index) => {
-                            return <Grid key={item.name} sx={{ p:2 }} item xs={6} md={4} lg={3} className="position-relative">
-                                <img 
-                                    alt={item.name}
-                                    className="w-100" 
-                                    src={URL.createObjectURL(item)}
-                                />
-                                <CancelOutlinedIcon className="position-absolute cursor-pointer" style={{ bottom:"95%", left:"95%" }} onClick={() => handleRemoveImage(item)}/>
-                            </Grid>
-                        })
+                        imageListPrev.length > 0 
+                            && imageListPrev.map((item,index) => {
+                                return <Grid key={item.name} sx={{ p:2 }} item xs={6} md={4} lg={3} className="position-relative">
+                                    <img 
+                                        alt={item.name}
+                                        className="w-100" 
+                                        src={URL.createObjectURL(item)}
+                                    />
+                                    <CancelOutlinedIcon className="position-absolute cursor-pointer" style={{ bottom:"95%", left:"95%" }} onClick={() => handleRemoveImage(item)}/>
+                                </Grid>
+                            })
+                    }
+                    {
+                        imageForUpdate.length > 0
+                            && props.productInfo?.images.map((item,index) => {
+                                return <Grid key={index} sx={{ p:2 }} item xs={6} md={4} lg={3} className="position-relative">
+                                    <img 
+                                        alt={item.name}
+                                        className="w-100" 
+                                        src={item}
+                                    />
+                                    <CancelOutlinedIcon className="position-absolute cursor-pointer" style={{ bottom:"95%", left:"95%" }} onClick={() => handleRemoveImage(item)}/>
+                                </Grid>
+                            })
                     }
                 </Grid>
                 <div>
@@ -414,12 +457,14 @@ const ActionModal = (props) => {
                     label="Kích thước" 
                     variant="outlined" 
                     onChange={handleChangeSize}
+                    value={prdInfoProperties.size}
                     className="w-50"
                 />
                 <div className='mt-4'>
                     <CKEditor
                         config={defaultConfig}
                         editor={ Editor }
+                        data={prdInfoProperties.content}
                         onReady={ editor => {
                             editor.plugins.get("FileRepository").createUploadAdapter = (
                                 loader
@@ -439,7 +484,12 @@ const ActionModal = (props) => {
                     />
                 </div>
                 <div className="mt-4 text-end">
-                    <Button variant="contained" sx={{ mr:3 }} onClick={handleModalAction}>Tạo bài viết</Button>
+                    {
+                        props.isCreateProduct ?
+                            <Button variant="contained" sx={{ mr:3 }} onClick={handleModalAction}>Tạo bài viết</Button>
+                        :
+                            <Button variant="contained" sx={{ mr:3 }} onClick={handleModalActionEditProduct}>Sửa bài viết</Button>
+                    }
                     <Button variant="contained" onClick={handleClose}>Hủy tạo</Button>
                 </div>
             </Box>

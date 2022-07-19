@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Skeleton, Container, Button, Typography, Chip } from "@mui/material";
+import { Skeleton, Container, Typography, Chip } from "@mui/material";
 import axiosInstance from '../../axios';
 import { getProductClassification } from '../../common';
 import SuggestedProducts from '../detailpage/SuggestedProducts';
 import EditIcon from '@mui/icons-material/Edit';
 import { getToken } from "../../common";
+import Carousel from 'react-bootstrap/Carousel';
 
 const Detail = (props) => {
 
@@ -34,11 +35,27 @@ const Detail = (props) => {
         });
     }, [id]);
 
-
     return <Container sx={{ mt:15, mb:10 }}>
+
         <div className="row">
             <div className="col-md-6 px-0">
-                <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
+                <Carousel>
+                    {
+                        productInfo !== null
+                            ?
+                                productInfo.images.map((item,index) => {
+                                    return <Carousel.Item>
+                                        <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
+                                    </Carousel.Item>
+                                    // <div className={"carousel-item " + (index === 0 ? "active" : "" )} key={index}>
+                                    //     <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
+                                    // </div>
+                                })
+                            : 
+                                null
+                    }
+                </Carousel>
+                {/* <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
                     <div className="carousel-indicators pe-lg-2">
                         {
                             productInfo !== null
@@ -67,15 +84,7 @@ const Detail = (props) => {
                                     null
                         }
                     </div>
-                    {/* <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button> */}
-                </div>
+                </div> */}
             </div>
             <div className="col-md-6 ps-lg-4">
                 {
@@ -103,6 +112,7 @@ const Detail = (props) => {
                                             () => {
                                                 props.setOpenModal(true);
                                                 props.setIsCreateProduct(false);
+                                                props.setProductInfo(productInfo);
                                             }
                                         }
                                     >

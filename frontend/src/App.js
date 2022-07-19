@@ -7,7 +7,7 @@ import ProductPage from "./components/productpage";
 import Detail from "./components/detailpage";
 import ActionModal from "./components/actionModal";
 import CreateButton from "./components/actionModal/CreateButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./components/loginpage";
 import NotFound from "./components/notfoundpage";
 import { getToken } from "./common";
@@ -17,6 +17,12 @@ function App() {
   const [token, setToken] = useState(false);
   const [isCreateProduct, setIsCreateProduct] = useState(true);
   const [productInfo, setProductInfo] = useState(null);
+
+  useEffect(() => {
+    if (getToken()) {
+      setToken(getToken());
+    }
+  },[]);
 
   return (
     <div className="App">
@@ -31,7 +37,7 @@ function App() {
       {
         token &&
           <>
-            <CreateButton setOpenModal={setOpenModal} setIsCreateProduct={setIsCreateProduct}/>
+            <CreateButton setOpenModal={setOpenModal} setIsCreateProduct={setIsCreateProduct} setProductInfo={setProductInfo}/>
             <ActionModal openModal={openModal} setOpenModal={setOpenModal} token={token} isCreateProduct={isCreateProduct} productInfo={productInfo}/>
           </>
       }
