@@ -207,6 +207,7 @@ const ActionModal = (props) => {
     }
 
     const handleRemoveImage = (imageLink) => {
+        console.log(imageForUpdate);
         const list = [...imageListPrev];
         const list_update = [...imageForUpdate];
         const index = list.indexOf(imageLink);
@@ -216,7 +217,7 @@ const ActionModal = (props) => {
             setImageListPrev(list);
         }
         if (index_update > -1) {
-            list_update.splice(index,1);
+            list_update.splice(index_update,1);
             setImageForUpdate(list_update);
         }
     }
@@ -293,9 +294,8 @@ const ActionModal = (props) => {
         const token = props.token; 
 
         if (token) {
-            if (imageUploadArray.lenght === 0) {
-                
-            } else {
+            if (imageUploadArray.lenght > 0) {
+
                 axiosInstance
                 .post(`/products`,
                     {
@@ -330,7 +330,14 @@ const ActionModal = (props) => {
     }
 
     const handleModalActionEditProduct = () => {
-        console.log("sửa đê");
+        console.log({
+            name: prdInfoProperties.name,
+            size: prdInfoProperties.size,
+            content: prdInfoProperties.content,
+            classify: prdInfoProperties.classify,
+            type: prdInfoProperties.type,
+            images: imageUploadArray
+        })
     }
 
     return <>
@@ -352,9 +359,6 @@ const ActionModal = (props) => {
                         {props.isCreateProduct ? "Tạo bài viết giới thiệu sản phẩm" : "Chỉnh sửa sản phẩm"}
                     </Typography>
                 </div>
-                {/* <Typography id="modal-modal-title" variant="h6" className="fw-bold" sx={{ mt:3, mb:1 }}>
-                    Tên sản phẩm
-                </Typography> */}
                 <TextField 
                     error={nameIsEmpty}
                     helperText={nameIsEmpty ? "Mời nhập tên sản phẩm" : ""}
@@ -422,7 +426,7 @@ const ActionModal = (props) => {
                     }
                     {
                         imageForUpdate.length > 0
-                            && props.productInfo?.images.map((item,index) => {
+                            && imageForUpdate.map((item,index) => {
                                 return <Grid key={index} sx={{ p:2 }} item xs={6} md={4} lg={3} className="position-relative">
                                     <img 
                                         alt={item.name}

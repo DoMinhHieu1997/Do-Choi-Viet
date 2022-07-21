@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Skeleton, Container, Typography, Chip } from "@mui/material";
 import axiosInstance from '../../axios';
+import $ from 'jquery';
 import { getProductClassification } from '../../common';
 import SuggestedProducts from '../detailpage/SuggestedProducts';
 import EditIcon from '@mui/icons-material/Edit';
@@ -35,6 +36,20 @@ const Detail = (props) => {
         });
     }, [id]);
 
+    useEffect(() => {
+        if (productInfo) {
+            if (productInfo.images.length) {
+                const indicators = $(".carousel-indicators button");
+                
+                $.each(indicators, (index, item) => {
+                    $(item).empty().append(
+                        `<div class="ratio ratio-4x3 bg-01c classify-icon overflow-hidden rounded border" style="background-image:url(${productInfo.images[index]})"></div>`
+                    )
+                })
+            }
+        }
+    }, [productInfo?.images]);
+
     return <Container sx={{ mt:15, mb:10 }}>
 
         <div className="row">
@@ -45,46 +60,13 @@ const Detail = (props) => {
                             ?
                                 productInfo.images.map((item,index) => {
                                     return <Carousel.Item>
-                                        <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
+                                        <div key={index} className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
                                     </Carousel.Item>
-                                    // <div className={"carousel-item " + (index === 0 ? "active" : "" )} key={index}>
-                                    //     <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
-                                    // </div>
                                 })
                             : 
                                 null
                     }
                 </Carousel>
-                {/* <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
-                    <div className="carousel-indicators pe-lg-2">
-                        {
-                            productInfo !== null
-                                ?
-                                    productInfo?.images
-                                        && 
-                                        productInfo.images.map((item,index) => {
-                                            return <button type="button" key={index+"slide-btn"} data-bs-target="#carouselExampleIndicators" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current="true" aria-label={`Slide ${index}` }>
-                                                <div className="ratio ratio-4x3 bg-01c classify-icon overflow-hidden rounded border" style={{backgroundImage:`url(${item})`}}></div>
-                                            </button>
-                                        })
-                                : 
-                                    null
-                        }
-                    </div>
-                    <div className="carousel-inner rounded overflow-hidden">
-                        {
-                            productInfo !== null
-                                ?
-                                    productInfo.images.map((item,index) => {
-                                        return <div className={"carousel-item " + (index === 0 ? "active" : "" )} key={index}>
-                                            <div className="ratio ratio-4x3 bg-secondary classify-icon rounded border" style={{backgroundImage:`url(${item})`}}></div>
-                                        </div>
-                                    })
-                                : 
-                                    null
-                        }
-                    </div>
-                </div> */}
             </div>
             <div className="col-md-6 ps-lg-4">
                 {
