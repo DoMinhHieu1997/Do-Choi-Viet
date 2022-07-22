@@ -82,7 +82,7 @@ router.patch("/update/:id", authMdw, async (req, res) => {
             res.json("Cập nhật sản phẩm không thành công");
         }
     } catch (err) {
-        res.status(400).send(err.message);
+        return responseMessage("fail",1,"Đã hết phiên đăng nhập, mời đăng nhập lại");
     }
 });
 

@@ -10,7 +10,7 @@ router.post("/login", (req, res) => {
         },
         "MY_PRIVATE_KEY",
         {
-            expiresIn: 5*60,
+            expiresIn: 60*60,
         }
     );
     res.send(token);

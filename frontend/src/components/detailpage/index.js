@@ -54,7 +54,7 @@ const Detail = (props) => {
 
         <div className="row">
             <div className="col-md-6 px-0">
-                <Carousel>
+                <Carousel controls={false}>
                     {
                         productInfo !== null
                             ?

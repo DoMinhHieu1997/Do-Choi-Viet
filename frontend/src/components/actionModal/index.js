@@ -207,7 +207,7 @@ const ActionModal = (props) => {
     }
 
     const handleRemoveImage = (imageLink) => {
-        console.log(imageForUpdate);
+        // console.log(imageForUpdate);
         const list = [...imageListPrev];
         const list_update = [...imageForUpdate];
         const index = list.indexOf(imageLink);
@@ -330,13 +330,52 @@ const ActionModal = (props) => {
     }
 
     const handleModalActionEditProduct = () => {
+        const token = props.token; 
+
+        // if (token) {
+        //     if (imageUploadArray.lenght > 0) {
+
+        //         axiosInstance
+        //         .patch(`/products/update/${prdInfoProperties._id}`,
+        //             {
+        //                 name: prdInfoProperties.name,
+        //                 size: prdInfoProperties.size,
+        //                 content: prdInfoProperties.content,
+        //                 classify: prdInfoProperties.classify,
+        //                 type: prdInfoProperties.type,
+        //                 images: imageUploadArray
+        //             },
+        //             {
+        //                 headers: {
+        //                     Authorization: "Bearer " + token
+        //                 },
+        //             }
+        //         )
+        //         .then((res) => {
+        //             // console.log(res);
+        //             const result = res.data;
+
+        //             if (result.messageCode === 0) {
+        //                 props.setOpenModal(false);
+        //                 navigate(`/chi-tiet/${result.data.insertedId}`);
+        //             } else {
+        //                 alert(result.data[0]);
+        //             }
+        //         });
+        //     } 
+        // } else {
+        //     console.log('chưa đăng nhập');
+        // }
+
+        console.log(props.productInfo._id);
+
         console.log({
             name: prdInfoProperties.name,
             size: prdInfoProperties.size,
             content: prdInfoProperties.content,
             classify: prdInfoProperties.classify,
             type: prdInfoProperties.type,
-            images: imageUploadArray
+            images: [...imageForUpdate,...imageUploadArray]
         })
     }
 

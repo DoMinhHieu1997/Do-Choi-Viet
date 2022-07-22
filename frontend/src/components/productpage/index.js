@@ -72,10 +72,6 @@ const ProductPage = () => {
     }
 
     useEffect(() => {
-        
-    }, [])
-
-    useEffect(() => {
         setIsLoading(true)
         getProductTitle(param.type);
         setIsLoading(false);
