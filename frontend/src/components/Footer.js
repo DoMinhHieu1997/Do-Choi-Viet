@@ -4,7 +4,7 @@ import {
     Typography
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 
 const AppFooter = () => {
     const pages = [

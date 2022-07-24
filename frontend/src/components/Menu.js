@@ -17,7 +17,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 import { getToken } from '../common';
 
 function ElevationScroll(props) {
@@ -183,6 +183,7 @@ const AppMenu = (props) => {
                       <NavLink className="c-606060"
                           to={`/login`}
                           onClick={() => {
+                            props.setToken(false);
                             setLogged(false);
                             window.scroll(0, 0);
                             localStorage.removeItem('token');

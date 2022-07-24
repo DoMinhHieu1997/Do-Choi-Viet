@@ -31,7 +31,7 @@ const findRandomProducts = async (productId) => {
                     }
                 },
                 {
-                    $sample: {size:4}
+                    $sample: {size:8}
                 }
             ]
         ).toArray();

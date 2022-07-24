@@ -7,12 +7,14 @@ import { getProductClassification } from '../../common';
 import SuggestedProducts from '../detailpage/SuggestedProducts';
 import EditIcon from '@mui/icons-material/Edit';
 import { getToken } from "../../common";
+import { useLocation } from "react-router-dom";
 import Carousel from 'react-bootstrap/Carousel';
 
 const Detail = (props) => {
 
     const {id} = useParams();
     let navigate = useNavigate();
+    const location = useLocation();
     const [productInfo, setProductInfo] = useState(null);
     const [allowEdit, setAllowEdit] = useState(false);
 
@@ -34,7 +36,7 @@ const Detail = (props) => {
                 navigate('/');
             }
         });
-    }, [id]);
+    }, [id,location]);
 
     useEffect(() => {
         if (productInfo) {

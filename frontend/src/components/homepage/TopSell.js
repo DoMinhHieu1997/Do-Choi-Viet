@@ -7,13 +7,27 @@ import {
   Grid,
   Skeleton
 } from '@mui/material';
+import axiosInstance from '../../axios';
+import ProductCard from '../productpage/ProductItem';
 
 const TopSell = () => {
 
   const [topSell, setTopSell] = useState([]);
 
   useEffect(() => {
+    axiosInstance
+        .get(`/products/suggestions`,
+            {
+                productId: 0
+            }
+        )
+        .then((res) => {
+            const result = res.data;
 
+            if (result.messageCode === 0) {
+              setTopSell(result.data);
+            }
+        });
   }, []);
 
   return <>
@@ -22,16 +36,20 @@ const TopSell = () => {
     <Grid container spacing={3}>
       {
         topSell.length === 0 
-          && 
+          ? 
             Array(8).fill(0).map((item, index) => {
-              return <ItemSkeleton key={index+'skeleton'}/>
+              return <ItemSkeleton key={index}/>
+            })
+          :
+            topSell.map((item, index) => {
+              return <ProductCard key={index} infor={item}/>
             })
       }
     </Grid>
   </>
 }
 
-const TopSellItem = () => {
+const TopSellItem = (infor) => {
 
   return <Grid item xs={6} md={3} mb={2}>
     <Card>

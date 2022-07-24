@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../axios';
-import { Skeleton, Card, Grid, Container, Button, Typography, Chip } from "@mui/material";
+import { Grid, Typography} from "@mui/material";
 import ProductCard from '../productpage/ProductItem';
 
 const SuggestedProduct = (props) => {
@@ -33,7 +33,7 @@ const SuggestedProduct = (props) => {
                 list.length === 0
                     && 
                         Array(4).fill(0).map((item,index) => {
-                            return <div key={index+'-another'} className="col-md-3 col-12">
+                            return <div key={index} className="col-md-3 col-12">
                                 <div className="rounded border ratio ratio-4x3" style={{backgroundColor:'rgba(0, 0, 0, 0.11)'}}></div>
                             </div>
                         })   
@@ -43,7 +43,7 @@ const SuggestedProduct = (props) => {
             {
                 list.length > 0 && 
                     list.map((item, index) => {
-                        return <ProductCard key={index+'pc'} infor={item}/>
+                        return <ProductCard key={index} infor={item}/>
                     })
             }
         </Grid>

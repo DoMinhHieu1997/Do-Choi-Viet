@@ -332,51 +332,41 @@ const ActionModal = (props) => {
     const handleModalActionEditProduct = () => {
         const token = props.token; 
 
-        // if (token) {
-        //     if (imageUploadArray.lenght > 0) {
+        if (token) {
+            if (imageUploadArray.length > 0 || imageForUpdate.length > 0) {
+                axiosInstance
+                .patch(`/products/update/${props.productInfo._id}`,
+                    {
+                        name: prdInfoProperties.name,
+                        size: prdInfoProperties.size,
+                        content: prdInfoProperties.content,
+                        classify: prdInfoProperties.classify,
+                        type: prdInfoProperties.type,
+                        images: [...imageForUpdate,...imageUploadArray]
+                    },
+                    {
+                        headers: {
+                            Authorization: "Bearer " + token
+                        },
+                    }
+                )
+                .then((res) => {
+                    const result = res.data;
 
-        //         axiosInstance
-        //         .patch(`/products/update/${prdInfoProperties._id}`,
-        //             {
-        //                 name: prdInfoProperties.name,
-        //                 size: prdInfoProperties.size,
-        //                 content: prdInfoProperties.content,
-        //                 classify: prdInfoProperties.classify,
-        //                 type: prdInfoProperties.type,
-        //                 images: imageUploadArray
-        //             },
-        //             {
-        //                 headers: {
-        //                     Authorization: "Bearer " + token
-        //                 },
-        //             }
-        //         )
-        //         .then((res) => {
-        //             // console.log(res);
-        //             const result = res.data;
-
-        //             if (result.messageCode === 0) {
-        //                 props.setOpenModal(false);
-        //                 navigate(`/chi-tiet/${result.data.insertedId}`);
-        //             } else {
-        //                 alert(result.data[0]);
-        //             }
-        //         });
-        //     } 
-        // } else {
-        //     console.log('chưa đăng nhập');
-        // }
-
-        console.log(props.productInfo._id);
-
-        console.log({
-            name: prdInfoProperties.name,
-            size: prdInfoProperties.size,
-            content: prdInfoProperties.content,
-            classify: prdInfoProperties.classify,
-            type: prdInfoProperties.type,
-            images: [...imageForUpdate,...imageUploadArray]
-        })
+                    if (result.messageCode === 0) {
+                        props.setOpenModal(false);
+                        navigate(`/chi-tiet/${props.productInfo._id}`);
+                    } else {
+                        alert(result.data[0]);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            } 
+        } else {
+            console.log('chưa đăng nhập');
+        }
     }
 
     return <>

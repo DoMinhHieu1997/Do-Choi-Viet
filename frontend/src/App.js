@@ -14,7 +14,7 @@ import { getToken } from "./common";
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
-  const [token, setToken] = useState(false);
+  const [tokenExist, setToken] = useState(false);
   const [isCreateProduct, setIsCreateProduct] = useState(true);
   const [productInfo, setProductInfo] = useState(null);
 
@@ -26,19 +26,19 @@ function App() {
 
   return (
     <div className="App">
-      <AppMenu setToken={setToken} token={token}/>
+      <AppMenu setToken={setToken} token={tokenExist}/>
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/login" element={<Login setToken={setToken}/>} />
         <Route path="/san-pham/:type" element={<ProductPage />} />
-        <Route path="/chi-tiet/:id" element={<Detail setOpenModal={setOpenModal} token={token} setIsCreateProduct={setIsCreateProduct} setProductInfo={setProductInfo}/>} />
+        <Route path="/chi-tiet/:id" element={<Detail setOpenModal={setOpenModal} token={tokenExist} setIsCreateProduct={setIsCreateProduct} setProductInfo={setProductInfo}/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {
-        token &&
+        tokenExist &&
           <>
             <CreateButton setOpenModal={setOpenModal} setIsCreateProduct={setIsCreateProduct} setProductInfo={setProductInfo}/>
-            <ActionModal openModal={openModal} setOpenModal={setOpenModal} token={token} isCreateProduct={isCreateProduct} productInfo={productInfo}/>
+            <ActionModal openModal={openModal} setOpenModal={setOpenModal} token={tokenExist} isCreateProduct={isCreateProduct} productInfo={productInfo}/>
           </>
       }
       <AppFooter/>
