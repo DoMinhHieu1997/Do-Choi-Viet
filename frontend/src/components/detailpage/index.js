@@ -45,7 +45,7 @@ const Detail = (props) => {
                 
                 $.each(indicators, (index, item) => {
                     $(item).empty().append(
-                        `<div class="ratio ratio-4x3 bg-01c classify-icon overflow-hidden rounded border" style="background-image:url(${productInfo.images[index]})"></div>`
+                        $('<div>',{class:'ratio ratio-4x3 bg-01c classify-icon overflow-hidden rounded border' + (index === 0 ? 'active' : ''), key:index, style:`background-image:url(${productInfo.images[index]})`})
                     )
                 })
             }

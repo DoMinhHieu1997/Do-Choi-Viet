@@ -17,7 +17,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
-import Logo from '../images/logo.png';
+import Logo from '../images/Logo.png';
 import { getToken } from '../common';
 
 function ElevationScroll(props) {

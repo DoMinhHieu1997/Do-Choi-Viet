@@ -118,29 +118,28 @@ const ActionModal = (props) => {
     const [sizeIsEmpty, setSizeIsEmpty] = useState(false);
     const [nameIsEmpty, setNameIsEmpty] = useState(false);
     const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
-    const [imageUploadArray] = useState([]);
+    const [imageUploadArray, setImageUploadArray] = useState([]);
     const [displayType, setDisplayType] = useState(false);
     const [noticeUploadimages, setNoticeUploadimages] = useState(true);
 
     useEffect(() => {
+        setImageListPrev([]);
+        setImageUploadArray([]);
         if (props.productInfo) {
             let prd = props.productInfo;
-            setPrdInfoProperties({
-                name: prd.name,
-                size: prd.size,
-                classify: prd.classify,
-                type: prd.type,
-                content: prd.content
-            });
+            prdInfoProperties.name=prd.name;
+            prdInfoProperties.size=prd.size;
+            prdInfoProperties.classify=prd.classify;
+            prdInfoProperties.type=prd.type;
+            prdInfoProperties.content=prd.content;
             setImageForUpdate(prd.images);
         } else {
-            setPrdInfoProperties({
-                name:'',
-                size:'',
-                classify:'',
-                type:0,
-                content:''
-            });
+            prdInfoProperties.name='';
+            prdInfoProperties.size='';
+            prdInfoProperties.classify='';
+            prdInfoProperties.type=0;
+            prdInfoProperties.content='';
+            setImageForUpdate([]);
         }
     },[props.productInfo]);
 
@@ -152,20 +151,6 @@ const ActionModal = (props) => {
 
     const handleCloseSnackBar = () => {
         setOpenSnackBar(false);
-    }
-
-    const handleChangeName = (event) => {
-        const value = event.target.value;
-
-        if (value) {
-            setPrdInfoProperties({
-                ...prdInfoProperties,
-                name: value
-            });
-            setNameIsEmpty(false);
-        } else {
-            setNameIsEmpty(true);
-        }
     }
 
     const handleImageUpload = (e) => {
@@ -268,6 +253,20 @@ const ActionModal = (props) => {
         })
     }
 
+    const handleChangeName = (event) => {
+        const value = event.target.value;
+
+        setPrdInfoProperties({
+            ...prdInfoProperties,
+            name: value
+        });
+        if (value) {
+            setNameIsEmpty(false);
+        } else {
+            setNameIsEmpty(true);
+        }
+    }
+
     const handleChangeSize = (event) => {
         const value = event.target.value;
 
@@ -294,8 +293,16 @@ const ActionModal = (props) => {
         const token = props.token; 
 
         if (token) {
-            if (imageUploadArray.lenght > 0) {
+            if (!prdInfoProperties.name)
+                setNameIsEmpty(true);
 
+            if (!prdInfoProperties.classify)
+                setClassifyIsEmpty(true);
+
+            if (!prdInfoProperties.size)
+                setSizeIsEmpty(true);
+            
+            if (imageUploadArray.length > 0 && !nameIsEmpty && !classifyIsEmpty && !sizeIsEmpty) {
                 axiosInstance
                 .post(`/products`,
                     {
@@ -313,7 +320,6 @@ const ActionModal = (props) => {
                     }
                 )
                 .then((res) => {
-                    // console.log(res);
                     const result = res.data;
 
                     if (result.messageCode === 0) {
@@ -323,7 +329,7 @@ const ActionModal = (props) => {
                         alert(result.data[0]);
                     }
                 });
-            } 
+            }
         } else {
             console.log('chưa đăng nhập');
         }
@@ -351,6 +357,7 @@ const ActionModal = (props) => {
                     }
                 )
                 .then((res) => {
+                    console.log(res);
                     const result = res.data;
 
                     if (result.messageCode === 0) {
