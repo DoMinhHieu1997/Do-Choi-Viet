@@ -1,7 +1,6 @@
 import {
     Container,
-    Grid,
-    Typography
+    Grid
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Logo from '../images/Logo.png';
@@ -24,10 +23,19 @@ const AppFooter = () => {
                     <img width='250rem' src={Logo}/>
                 </Grid>
                 <Grid>
-                    <Grid container sx={{fontWeight:"600"}}>
+                    <Grid className="d-none d-md-flex" container>
                         {
                             pages.map((item,index) => {
-                                return <Grid item mr={3} key={index}>
+                                return <Grid mr={3} key={index} sx={{fontWeight:'600'}}>
+                                    <NavLink to={item.link} className="c-606060">{item.text}</NavLink>
+                                </Grid>
+                            })
+                        }
+                    </Grid>
+                    <Grid className="mt-3 d-md-none" container>
+                        {
+                            pages.map((item,index) => {
+                                return <Grid key={index} mt={2} xs={6} sx={{fontWeight:'600', fontSize:'1.3rem'}}>
                                     <NavLink to={item.link} className="c-606060">{item.text}</NavLink>
                                 </Grid>
                             })

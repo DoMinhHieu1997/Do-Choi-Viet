@@ -70,14 +70,14 @@ const Detail = (props) => {
                     }
                 </Carousel>
             </div>
-            <div className="col-md-6 ps-lg-4">
+            <div className="col-md-6 ps-lg-4 mt-3 mt-md-0">
                 {
                     productInfo !== null 
                         ?
                             <>
                                 <Typography variant="h4" fontWeight={"bold"}>{productInfo.name}</Typography>
                                 {
-                                    productInfo.classify !== 'xep-hinh'
+                                    productInfo.classify !== 'xep-hinh' && productInfo.classify !== 'ngoai-troi'
                                         && 
                                             <Chip sx={{backgroundColor:'rgb(247, 146, 7)', color:'white'}} className="fw-bold fs-5 p-2 mt-4" label={productInfo.type === 1 ? 'có nam châm' : 'không nam châm'}/>
 

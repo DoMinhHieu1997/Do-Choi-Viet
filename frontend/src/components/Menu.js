@@ -8,11 +8,12 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
   Button,
   Tooltip,
   MenuItem
 } from '@mui/material';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -83,7 +84,8 @@ const AppMenu = (props) => {
       <Container>
         <Toolbar disableGutters>
           
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr:5, alignItems:'center' }}>
+          {/* Desktop logo */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, mr:5, alignItems:'center' }}>
             <img width='150rem' src={Logo}/>
           </Box>
 
@@ -117,9 +119,11 @@ const AppMenu = (props) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.text + '-specified-1'} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" className='c-606060'>{page.text}</Typography>
-                </MenuItem>
+                <NavLink key={page.text + '-specified-2'} to={page.link}>
+                  <MenuItem key={page.text + '-specified-1'} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" className='c-606060'>{page.text}</Typography>
+                  </MenuItem>
+                </NavLink>
               ))}
             </Menu>
           </Box>
@@ -127,18 +131,9 @@ const AppMenu = (props) => {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems:'center', fontWeight:'600' }}>
             <img width="100rem" src={Logo}/>
           </Box>
-          
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* <input 
-              placeholder="Tìm sản phẩm..." 
-              className="rounded py-1 px-3" 
-              style={{
-                backgroundColor:"#f1effc",
-                border: "1px solid #0000001c !important"
-              }}
-            /> */}
-          </Box>
+          {/* mobile logo */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr:2 }}>
             {pages.map((page) => (
@@ -157,7 +152,13 @@ const AppMenu = (props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {
+                  !logged
+                    ? 
+                      <AccountCircleOutlinedIcon sx={{ fontSize: 30 }}/>
+                    :
+                      <AccountCircleIcon color="primary" sx={{ fontSize: 30, color:'#174c9c' }}/>
+                }
               </IconButton>
             </Tooltip>
             <Menu

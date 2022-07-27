@@ -79,7 +79,8 @@ const ProductPage = () => {
     }, [param.type])
 
     return <Container sx={{mt:15, mb:10}}>
-        <Typography mb={1} variant="h4" className="text-center" sx={{ fontWeight:"700" }}>Danh sách sản phẩm {title}</Typography>
+        <Typography mb={1} variant="h4" className="text-center d-md-block d-none" sx={{ fontWeight:"700" }}>Danh sách sản phẩm {title}</Typography>
+        <Typography mb={1} variant="h5" className="text-center d-md-none d-block" sx={{ fontWeight:"700" }}>Danh sách sản phẩm {title}</Typography>
         <div className='mx-auto mb-4' style={{ height:"3px", width:"5rem", backgroundColor:"#f79207" }}></div>
         <Grid container spacing={2}>
             {
