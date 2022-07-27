@@ -120,7 +120,7 @@ const ActionModal = (props) => {
     const [classifyIsEmpty, setClassifyIsEmpty] = useState(false);
     const [imageUploadArray, setImageUploadArray] = useState([]);
     const [displayType, setDisplayType] = useState(false);
-    const [noticeUploadimages, setNoticeUploadimages] = useState(true);
+    const [noticeUploadimages, setNoticeUploadimages] = useState(false);
 
     useEffect(() => {
         setImageListPrev([]);
@@ -192,7 +192,6 @@ const ActionModal = (props) => {
     }
 
     const handleRemoveImage = (imageLink) => {
-        // console.log(imageForUpdate);
         const list = [...imageListPrev];
         const list_update = [...imageForUpdate];
         const index = list.indexOf(imageLink);
@@ -370,7 +369,9 @@ const ActionModal = (props) => {
                 .catch(error => {
                     console.log(error);
                 })
-            } 
+            } else {
+                setNoticeUploadimages(true);
+            }
         } else {
             console.log('chưa đăng nhập');
         }
@@ -428,7 +429,7 @@ const ActionModal = (props) => {
                     <Typography id="modal-modal-title" variant="h6" className="fw-bold mb-1" sx={{ mt:3 }}>
                         Tải ảnh sản phẩm lên
                     </Typography>
-                    <Typography hidden={noticeUploadimages} id="modal-modal-title" variant="h6" className="fw-bold text-danger" sx={{ mb:1 }}>
+                    <Typography hidden={!noticeUploadimages} id="modal-modal-title" variant="h6" className="fw-bold text-danger" sx={{ mb:1 }}>
                         (Mời chọn ảnh cho sản phẩm)
                     </Typography>
                 </div>

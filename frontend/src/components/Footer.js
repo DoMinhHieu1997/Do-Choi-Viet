@@ -20,7 +20,7 @@ const AppFooter = () => {
         <Container>
             <Grid container sx={{py:5, alignItems:"center"}}>
                 <Grid item sx={{ flexGrow:1, display:'flex', alignItems:'end' }}>
-                    <img width='250rem' src={Logo}/>
+                    <img width='220rem' src={Logo}/>
                 </Grid>
                 <Grid>
                     <Grid className="d-none d-md-flex" container>
@@ -35,7 +35,7 @@ const AppFooter = () => {
                     <Grid className="mt-3 d-md-none" container>
                         {
                             pages.map((item,index) => {
-                                return <Grid key={index} mt={2} xs={6} sx={{fontWeight:'600', fontSize:'1.3rem'}}>
+                                return <Grid key={index} mt={2} xs={6} item={true} sx={{fontWeight:'600', fontSize:'1.3rem'}}>
                                     <NavLink to={item.link} className="c-606060">{item.text}</NavLink>
                                 </Grid>
                             })

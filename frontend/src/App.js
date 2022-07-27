@@ -24,10 +24,6 @@ function App() {
     }
   },[]);
 
-  useEffect(() => {
-    console.log(productInfo);
-  }, [productInfo]);
-
   return (
     <div className="App">
       <AppMenu setToken={setToken} token={tokenExist}/>

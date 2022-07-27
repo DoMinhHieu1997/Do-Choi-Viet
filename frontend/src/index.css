@@ -111,6 +111,10 @@ textarea {
   width: unset !important;
   height: unset !important;
 }
+.carousel-indicators {
+  max-height: 25rem;
+  overflow-y: auto;
+}
 .carousel-indicators [data-bs-target] {
   border-top: 0 !important;
 }
