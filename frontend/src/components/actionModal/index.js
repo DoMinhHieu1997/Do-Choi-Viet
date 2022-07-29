@@ -338,6 +338,7 @@ const ActionModal = (props) => {
         const token = props.token; 
 
         if (token) {
+            console.log(imageUploadArray);
             if (imageUploadArray.length > 0 || imageForUpdate.length > 0) {
                 axiosInstance
                 .patch(`/products/update/${props.productInfo._id}`,

@@ -66,7 +66,7 @@ const Login = ({setToken}) => {
     return <div className="mt-5 position-relative" style={{height:"75vh"}}>
         <div className="position-absolute h-100 w-100 login-page-background classify-icon"></div>
         <div className="position-absolute top-50 w-100 translate-middle-y col d-flex justify-content-center">
-            <div className="col-lg-4 col-11 border rounded shadow px-3 py-4" style={{backgroundColor:"white"}}>
+            <div className="col-lg-3 col-md-4 col-11 border rounded shadow px-3 py-4" style={{backgroundColor:"white"}}>
                 <div className="d-flex">
                     <div className="me-2" style={{width:"4px", backgroundColor:"#f79207"}}></div>
                     <Typography id="modal-modal-title" variant="h5" className="fw-bold">

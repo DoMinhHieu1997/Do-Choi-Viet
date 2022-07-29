@@ -47,7 +47,7 @@ router.post("/", authMdw, async (req, res) => {
                 name: req.body.name,
                 size: req.body.size,
                 classify: req.body.classify,
-                type: req.body.type,
+                type: req.body?.type,
                 images: req.body?.images,
                 content: req.body?.content,
                 description: req.body?.description
@@ -71,7 +71,7 @@ router.patch("/update/:id", authMdw, async (req, res) => {
                 name: req.body.name,
                 size: req.body.size,
                 classify: req.body.classify,
-                type: req.body.type,
+                type: req.body?.type,
                 images: req.body?.images,
                 content: req.body?.content,
                 description: req.body?.description
