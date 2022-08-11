@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const domain = "https://do-choi-viet.herokuapp.com/"; //"http://localhost:5001"
+
 const axiosInstance = axios.create({
-    baseURL:"http://localhost:5001"
+    baseURL:domain
 });
 
 // axiosInstance.interceptors.request.use((config) => {

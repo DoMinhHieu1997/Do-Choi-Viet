@@ -54,7 +54,7 @@ const Login = ({setToken}) => {
                 const result = res.data;
                 if (result.messageCode === 0) {
                     setToken(true);
-                    localStorage.setItem('token', result.data.token);
+                    sessionStorage.setItem('token', result.data.token);
                     navigate('/');
                 } else {
 

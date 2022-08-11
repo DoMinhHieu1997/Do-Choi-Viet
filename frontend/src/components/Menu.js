@@ -18,7 +18,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import MenuIcon from '@mui/icons-material/Menu';
-import Logo from '../images/logo.png';
+import Logo from '../images/Logo.png';
 import { getToken } from '../common';
 
 function ElevationScroll(props) {
@@ -187,7 +187,7 @@ const AppMenu = (props) => {
                             props.setToken(false);
                             setLogged(false);
                             window.scroll(0, 0);
-                            localStorage.removeItem('token');
+                            sessionStorage.removeItem('token');
                           }}
                       >Đăng Xuất</NavLink>
                     </MenuItem>
