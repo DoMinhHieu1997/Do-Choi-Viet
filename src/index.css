@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto:wght@300&display=swap");
+
+body {
+  color: #606060 !important;
+  font-family: "Roboto", sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
+  user-select: none;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+input:focus-visible {
+  outline: none;
+}
+a {
+  text-decoration: none !important;
+}
+textarea {
+  border-color: rgba(0, 0, 0, 0.23) !important;
+}
+.c-606060 {
+  color: #606060 !important;
+}
+.bg-01c {
+  background-color: #0000001c;
+}
+.b-01c {
+  border: 1px solid #0000001c !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.shadow-hover:hover {
+  transition: .5s;
+  box-shadow: .5px 5px 5px 5px rgba(0,0,0,.2)
+}
+.transition-d5 {
+  transition: .5s;
+}
+.bg-antiquewhite {
+  background-color:antiquewhite;
+}
+.login-page-background {
+  background-image:url('./images/login-page-background.jpg');
+  opacity: 0.3;
+}
+.classify-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.icon-chess-active {
+  background-image: url('./images/icon-chess-active.svg');
+  width: 5.5rem !important;
+  height: 5.5rem !important;
+}
+.icon-horse-chess-active {
+  background-image: url('./images/icon-horse-chess-active.svg');
+  width: 6rem !important;
+  height: 6.2rem !important;
+}
+.icon-chinese-chess-active {
+  background-image: url('./images/icon-chinese-chess-active.svg');
+  width: 6rem !important;
+  height: 6.3rem !important;
+}
+.icon-block-active {
+  background-image: url('./images/icon-block-active.svg');
+  width: 6rem !important;
+  height: 6.2rem !important;
+}
+.icon-outside-active {
+  background-image: url('./images/icon-outside-active.svg');
+  width: 6rem !important;
+  height: 6.3rem !important;
+}
+.icon-dif-active {
+  background-image: url('./images/icon-dif-active.svg');
+  width: 6rem !important;
+  height: 6.2rem !important;
+}
+.MuiBox-root:focus-visible {
+  outline: none !important;
+}
+.ck-content {
+  min-height: 10rem;
+}
+.product-content > :first-child{
+  display: none;
+}
+.carousel-indicators {
+  margin-bottom: .2rem !important;
+  position: unset !important;
+  display: inline-flex !important;
+  flex-direction: column;
+  vertical-align: top;
+  width: 20% !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.carousel-inner {
+  display: inline-block;
+  width: 80% !important;
+}
+.carousel-indicators > button {
+  width: unset !important;
+  height: unset !important;
+}
+.carousel-indicators {
+  max-height: 25rem;
+  overflow-y: auto;
+}
+.carousel-indicators [data-bs-target] {
+  border-top: 0 !important;
+}
+.btn-login {
+  background-color: #f79207 !important;
+}
+.lh-1 {
+  line-height: 1;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(218, 218, 218); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(158, 158, 158); 
+}
+
+.z-999 {
+  z-index: 999;
+}
+
+.css-14f5fsl-MuiButtonBase-root-MuiButton-root:hover {
+  color: rgb(23, 76, 156) !important;
+  background-color: transparent !important;
+}
+
+.css-14f5fsl-MuiButtonBase-root-MuiButton-root {
+  font-size: 1rem !important;
+}
+
+.css-3an3bv-MuiGrid-root>a:hover {
+  color: rgb(23, 76, 156) !important;
+  background-color: transparent !important;
+}
+
+.css-3an3bv-MuiGrid-root>a {
+  font-size: 1.1rem !important;
+}
+
+.css-1pz7awu-MuiButtonBase-root-MuiIconButton-root {
+  color: #606060 !important;
+}
+
