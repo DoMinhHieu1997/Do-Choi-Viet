@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Typography, 
-    FormControl, 
-    InputLabel, 
     TextField,
-    Button,
-    OutlinedInput,
-    InputAdornment,
-    IconButton
+    Button
 } from "@mui/material";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from "../../axios";
@@ -18,6 +13,7 @@ const Login = ({setToken}) => {
     const [usernameIsEmpty, setUsernameIsEmpty] = useState(false);
     const [passwordIsEmpty, setPasswordIsEmpty] = useState(false);
     const [username, setUsername] = useState('');
+    const [errNotice, setErrNotice] = useState('');
     const [passwordInput, setPasswordInput] = useState({
         amount: '',
         password: '',
@@ -52,12 +48,13 @@ const Login = ({setToken}) => {
             .post(`/auth/login`, {username:username, password: passwordInput.password})
             .then((res) => {
                 const result = res.data;
+                console.log(res.data);
                 if (result.messageCode === 0) {
                     setToken(true);
-                    localStorage.setItem('token', result.data.token);
+                    sessionStorage.setItem('token', result.data.token);
                     navigate('/');
                 } else {
-
+                    setErrNotice('Tài khoản hoặc mật khẩu không đúng');
                 }
             });
         }
@@ -108,7 +105,14 @@ const Login = ({setToken}) => {
                         onChange={handleChange}
                     />
                 </div>
-                <Button variant="contained" className="mt-5 btn-login fw-bold" fullWidth onClick={handleLogin}>Đăng nhập</Button>
+                {
+                    errNotice !== ''
+                        &&
+                            <div class="alert alert-danger mt-2" role="alert">
+                                {errNotice}
+                            </div>
+                }
+                <Button variant="contained" className="mt-3 btn-login fw-bold" fullWidth onClick={handleLogin}>Đăng nhập</Button>
             </div>
         </div>
     </div>

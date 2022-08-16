@@ -187,7 +187,7 @@ const AppMenu = (props) => {
                             props.setToken(false);
                             setLogged(false);
                             window.scroll(0, 0);
-                            localStorage.removeItem('token');
+                            sessionStorage.removeItem('token');
                           }}
                       >Đăng Xuất</NavLink>
                     </MenuItem>

@@ -1,5 +1,5 @@
 export const getToken = () => {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
 }
 
 export const getProductClassification = (alias) => {
